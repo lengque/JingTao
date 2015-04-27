@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+  
+<struts> 
+   <!-- struts.multipart.saveDir用于指定存放临时文件的文件夹 -->
+    <constant name="struts.multipart.saveDir" value="/tmp"/>
+    <!--UserController Start-->
+    <!-- 每一个package对应一个业务逻辑 -->
+    <package name="user" namespace="/user" extends="struts-default">
+    	<!-- 注册 -->
+        <action name="register" class="userController" method="register">
+            <result name="success">/success.jsp</result>
+        </action>
+        <!-- 登陆 -->
+        <action name="login" class="userController" method="login">
+            <result name="success">/success.jsp</result>
+        </action>
+        <!-- 更新-->
+        <action name="modifyInfo" class="userController" method="modifyInfo">
+            <result name="success">/success.jsp</result>
+        </action>
+    </package>
+    
+     <!--UserController End-->
+</struts>

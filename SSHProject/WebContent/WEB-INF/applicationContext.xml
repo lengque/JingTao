@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+
+    <!-- 定义数据源的信息 -->  
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"  
+        destroy-method="close">  
+        <property name="driverClass">  
+            <value>com.mysql.jdbc.Driver</value>  
+        </property>  
+        <property name="jdbcUrl">  
+            <value>jdbc:mysql://localhost/SSH</value>  
+        </property>  
+        <property name="user">  
+            <value>root</value>  
+        </property>  
+        <property name="password">  
+            <value>1234</value>  
+        </property>  
+        <property name="maxPoolSize">  
+            <value>80</value>  
+        </property>  
+        <property name="minPoolSize">  
+            <value>1</value>  
+        </property>  
+        <property name="initialPoolSize">  
+            <value>1</value>  
+        </property>  
+        <property name="maxIdleTime">  
+            <value>20</value>  
+        </property>  
+    </bean>  
+  
+    <!--定义Hibernate的SessionFactory -->  
+    <!-- SessionFactory使用的数据源为上面的数据源 -->  
+    <!-- 指定了Hibernate的映射文件和配置信息 -->  
+   <bean id="sessionFactory"  
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource">  
+            <ref local="dataSource" />  
+        </property>  
+        <property name="hibernateProperties">  
+            <props>  
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+                <prop key="show_sql">true</prop>  
+                <prop key="hibernate.jdbc.batch_size">20</prop>  
+            </props>  
+        </property> 
+        
+        <property name="mappingResources">  
+            <list>  
+            	<value>model/User.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- 事物的控制 -->
+    <bean id="transactionManager"  
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>  
+  	
+  	<!-- 管理用户 -->  
+    <bean id="userController" class="controller.UserController">  
+        <property name="userRegisterService" ref="userRegisterService"/>
+        <property name="userLoginService" ref="userLoginService"/>
+        <property name="userModifyService" ref="userModifyService"/>
+        <property name="userConverter" ref="userConverter"/>
+    </bean>
+  	
+  	<!-- userDao -->
+    <bean id="userDao" class="daoImpl.UserDao">
+        <property name="sessionFactory" ref="sessionFactory"/>  
+    </bean>  
+  
+    <!--用户注册业务逻辑类 -->  
+    <bean id="userRegisterService" class="serviceImpl.UserRegisterServiceImpl">  
+        <property name="userDao" ref="userDao"/>
+        <property name="validators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
+    </bean>
+    
+    <!--用户登陆业务逻辑类 -->
+    <bean id="userLoginService" class="serviceImpl.UserLoginServiceImpl">  
+        <property name="userDao" ref="userDao"/>
+        <property name="validators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
+    </bean>
+    
+    <!--用户信息修改业务逻辑类 -->
+    <bean id="userModifyService" class="serviceImpl.UserModifyServiceImpl">  
+        <property name="userDao" ref="userDao"/>
+        <property name="validators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
+    </bean>
+  
+    <!-- more bean definitions go here -->
+    <bean id="userConverter" class="converter.UserConverter"/>
+    
+    <!-- validators start -->
+    <!-- username is exist in db -->
+    <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator"/>
+    <!-- validators end -->
+</beans>  

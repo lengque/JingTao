@@ -17,7 +17,7 @@ import dao.BaseDao;
 public class UserDao extends HibernateDaoSupport implements BaseDao {
 	
 	/**
-	 * <p>新增一个User</p>
+	 *
 	 * 
 	 */
 	@Override  
@@ -36,7 +36,7 @@ public class UserDao extends HibernateDaoSupport implements BaseDao {
     }
 	
 	/**
-	 * <p>查找 一个用户</p>
+	 *
 	 * 
 	 */
 	@Override  
@@ -57,11 +57,9 @@ public class UserDao extends HibernateDaoSupport implements BaseDao {
 		session.close();
 		
 		return obj;
-		//this.getHibernateTemplate().save(obj);
     }
 	
 	/**
-	 * <p>删除一个 对象</p>
 	 * 
 	 */
 	@Override
@@ -77,7 +75,7 @@ public class UserDao extends HibernateDaoSupport implements BaseDao {
 	}
 	
 	/**
-	 * <p>更新一个 对象</p>
+	 * 
 	 * 
 	 */
 	@Override

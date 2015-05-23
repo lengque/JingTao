@@ -64,47 +64,36 @@
   	
   	<!-- 管理用户 -->  
     <bean id="userController" class="controller.UserController">  
-        <property name="userRegisterService" ref="userRegisterService"/>
-        <property name="userLoginService" ref="userLoginService"/>
-        <property name="userModifyService" ref="userModifyService"/>
-        <property name="userConverter" ref="userConverter"/>
+        <property name="userService" ref="userService"/>
     </bean>
   	
   	<!-- userDao -->
     <bean id="userDao" class="daoImpl.UserDao">
         <property name="sessionFactory" ref="sessionFactory"/>  
     </bean>  
-  
-    <!--用户注册业务逻辑类 -->  
-    <bean id="userRegisterService" class="serviceImpl.UserRegisterServiceImpl">  
-        <property name="userDao" ref="userDao"/>
-        <property name="validators">
-        	<list>
-                <ref bean="userNameExistValidator" />
-        	</list>
-        </property>
-    </bean>
     
-    <!--用户登陆业务逻辑类 -->
-    <bean id="userLoginService" class="serviceImpl.UserLoginServiceImpl">  
+    <!--user service -->
+	<bean id="userService" class="serviceImpl.UserServiceImpl">  
         <property name="userDao" ref="userDao"/>
-        <property name="validators">
+        <property name="saveValidators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
+        
+        <property name="modifyUserInfoValidators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
+        
+        <property name="modifyUserPswValidators">
         	<list>
                 <ref bean="userNameExistValidator" />
         	</list>
         </property>
     </bean>
-    
-    <!--用户信息修改业务逻辑类 -->
-    <bean id="userModifyService" class="serviceImpl.UserModifyServiceImpl">  
-        <property name="userDao" ref="userDao"/>
-        <property name="validators">
-        	<list>
-                <ref bean="userNameExistValidator" />
-        	</list>
-        </property>
-    </bean>
-  
+   
     <!-- more bean definitions go here -->
     <bean id="userConverter" class="converter.UserConverter"/>
     

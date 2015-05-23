@@ -2,15 +2,13 @@ package validatorImpl;
 
 import Exception.BaseException;
 import model.User;
-import service.UserCheckService;
-import service.UserRegisterService;
 import util.ErrorList;
 import validator.BaseValidator;
 
 public class UserNameExistValidator implements BaseValidator{
 	
 	/**
-	 * <p>检验用户名是不是 已经存在</p>
+	 * check the user name
 	 * 
 	 */
 	@Override

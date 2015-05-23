@@ -1,29 +1,28 @@
 package validatorImpl;
 
 import model.User;
-import service.UserCheckService;
+import service.UserService;
 import util.ErrorList;
 import validator.BaseValidator;
 import Exception.BaseException;
 
 public class UserExistValidator implements BaseValidator{
-	private UserCheckService userCheckService;
+	private UserService userService;
 	
 	/**
-	 * <p>注入uerService</p>
+	 * <p>注锟斤拷uerService</p>
 	 * 
 	 */
-    public void setUserCheckService(UserCheckService userCheckService) {  
-        this.userCheckService = userCheckService;  
+    public void setUserCheckService(UserService userService) {  
+        this.userService = userService;  
     }
     
 	/**
-	 * <p>检验用户名是不是 已经存在</p>
-	 * 
+	 * validotor is exist in DB
 	 */
 	@Override
 	public void validate(User user) {
-		User u = userCheckService.checkUser(user);
+		User u = userService.checkUser(user);
 		
 		// if not found the u will be null
 		if(null == u){

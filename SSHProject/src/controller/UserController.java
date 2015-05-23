@@ -3,10 +3,7 @@ package controller;
 
 import java.util.Map;
 
-import service.UserDeleteService;
-import service.UserLoginService;
-import service.UserModifyService;
-import service.UserRegisterService;
+import service.UserService;
 import util.UserUtil;
 import model.User;
 import model.UserDTO;
@@ -20,49 +17,22 @@ import converter.UserConverter;
 public class UserController extends ActionSupport {
 		//private Map<String,Object> sessionContext = ActionContext.getContext().getSession();
 		//service
-	    private UserRegisterService userRegisterService;
-	    private UserLoginService userLoginService;
-	    private UserModifyService userModifyService;
-	    private UserDeleteService userDeleteService;
+	    private UserService userService;
 	    
 	    private UserConverter userConverter;
 	    private UserDTO userDTO;
 	    
 	    
 	    /**
-		 * <p>注入userRegisterService</p>
+		 * <p>userRegisterService</p>
 		 * 
 		 */
-	    public void setUserRegisterService(UserRegisterService userRegisterService) {  
-	        this.userRegisterService = userRegisterService;  
+	    public void setUserService(UserService userService) {  
+	        this.userService = userService;  
 	    }
 	    
 	    /**
-		 * <p>注入userLoginService</p>
-		 * 
-		 */
-	    public void setUserLoginService(UserLoginService userLoginService) {  
-	        this.userLoginService = userLoginService;  
-	    }
-	    
-	    /**
-		 * <p>注入UserModifyService</p>
-		 * 
-		 */
-		public void setUserModifyService(UserModifyService userModifyService){
-			this.userModifyService = userModifyService;
-		}
-		
-		/**
-		 * <p>注入UserConverter</p>
-		 * 
-		 */
-		public void setUserDeleteService(UserDeleteService userDeleteService) {
-			this.userDeleteService = userDeleteService;
-		}
-		
-	    /**
-		 * <p>注入UserConverter</p>
+		 * <p>UserConverter</p>
 		 * 
 		 */
 		public void setUserConverter(UserConverter userConverter) {
@@ -70,7 +40,7 @@ public class UserController extends ActionSupport {
 		}
 		
 	    /**
-		 * <p>用户注册</p>
+		 * 
 		 */
 	    public String register() {
 	        try {
@@ -78,7 +48,7 @@ public class UserController extends ActionSupport {
         		User user = userConverter.registerConverter(userDTO);
         		
         		//2.involk userService to save the user
-        		userRegisterService.saveUser(user);
+        		userService.saveUser(user);
 	        } catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);
@@ -89,7 +59,6 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * <p>用户登陆</p>
 		 * 
 		 */
 	    public String login() {
@@ -99,13 +68,15 @@ public class UserController extends ActionSupport {
 		    	User user = userConverter.loginConverter(userDTO);
 		    	
 		    	//2.get the user info from database
-		    	User u = userLoginService.login(user);
+		    	User u = userService.login(user);
 		    	
 		    	//3.convert the user to userDTO
-		    	
+		    	userDTO = userConverter.loginReverseConverter(u);
 		    	//4.set the log in state to session and return the userDTO
+		    	
 		    	//sessionContext.put("userId",u.getUserId());
 		    	//sessionContext.put("userName", u.getUsername());
+		    	
 	        } catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);
@@ -117,12 +88,12 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * <p>用户资料修改</p>
+		 * 
 		 * 
 		 */
 	    public String modifyInfo() {
 	    	this.userDTO.setGender(UserUtil.female);
-	    	this.userDTO.setAddress("中国");
+	    	this.userDTO.setAddress("new york");
 	    	this.userDTO.setIdCardNo("123123123123123");
 	    	this.userDTO.setUserId("297e5af94b7941b6014b7942b6ca0000");
 	    	
@@ -131,7 +102,7 @@ public class UserController extends ActionSupport {
 		    	User user = userConverter.modifyConverter(userDTO);
 		    	user.setPassword("12322");
 		    	//2.save the new info to db
-		    	this.userModifyService.modifyInfo(user);
+		    	this.userService.modifyInfo(user);
 	    	} catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);
@@ -143,7 +114,6 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * <p>修改密码</p>
 		 * 
 		 */
 	    public String modifyPassword() {
@@ -152,7 +122,7 @@ public class UserController extends ActionSupport {
         		//convert userDto to user for password
         		User user = userConverter.modifyPswConverter(userDTO);
         		//2.save the new password to db
-        		this.userModifyService.modifyInfo(user);
+        		this.userService.modifyInfo(user);
         		
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -163,15 +133,14 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * <p>删除用户</p>
-		 * 
+		 * delete user
 		 */
 	    public String deleteUser() {
 	        try {
         		//if user is login convert the userDTO to user
 	        	User user = userConverter.deleteUserConverter(userDTO);
         		//delete the user from DB
-	        	userDeleteService.deleteUser(user);
+	        	userService.deleteUser(user);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -181,15 +150,14 @@ public class UserController extends ActionSupport {
 	   
 	    
 	    /**
-		 * <p>获取userDTO</p>
-		 * 
+		 * set userDto
 		 */
 		public UserDTO getUserDTO() {
 			return userDTO;
 		}
 
 		/**
-		 * <p>注入userDTO</p>
+		 * get userDto
 		 * 
 		 */
 		public void setUserDTO(UserDTO userDTO) {

@@ -14,7 +14,7 @@ import model.UserDTO;
 public class UserConverter {
 	
 	/**
-	 * <p>用户注册初级检查</p>
+	 * 
 	 * 
 	 */
 	public User registerConverter(UserDTO userDTO){
@@ -77,7 +77,7 @@ public class UserConverter {
 	}
 	
 	/**
-	 * <p>用户登陆初级检查</p>
+	 * 
 	 * 
 	 */
 	public User loginConverter(UserDTO userDTO){
@@ -108,11 +108,33 @@ public class UserConverter {
 	}
 	
 	/**
-	 * <p>用户密码修改初级检查</p>
+	 * 
+	 * 
+	 */
+	public UserDTO loginReverseConverter(User user){
+		UserDTO userDto = new UserDTO();
+		if(user !=null ){
+			userDto.setAddress(user.getAddress());
+			userDto.setCreateTime(user.getCreateTime());
+			userDto.setEmail(user.getEmail());
+			userDto.setGender(user.getGender());
+			userDto.setGrade(user.getGrade());
+			userDto.setIdCardNo(user.getIdCardNo());
+			userDto.setRealName(user.getRealName());
+			userDto.setState(user.getState());
+			userDto.setTelphone(user.getTelphone());
+			userDto.setUserId(user.getUserId());
+			userDto.setUserName(user.getUsername());
+		}
+		
+		return userDto;
+	}
+	
+	/**
+	 * 
 	 * 
 	 */
 	public User modifyPswConverter(UserDTO userDTO){
-		//检查是否登陆
 		User user = new User();
 		
 		if(null != userDTO){
@@ -145,7 +167,6 @@ public class UserConverter {
 	}
 	
 	/**
-	 * <p>用户信息修改初级检查</p>
 	 * 
 	 */
 	public User modifyConverter(UserDTO userDTO){

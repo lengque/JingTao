@@ -40,7 +40,7 @@ public class UserController extends ActionSupport {
 		}
 		
 	    /**
-		 * 
+		 * user register
 		 */
 	    public String register() {
 	        try {
@@ -59,7 +59,7 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * 
+		 * login
 		 */
 	    public String login() {
 	    	
@@ -88,7 +88,7 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * 
+		 * modify info
 		 * 
 		 */
 	    public String modifyInfo() {
@@ -114,7 +114,7 @@ public class UserController extends ActionSupport {
 	    }
 	    
 	    /**
-		 * 
+		 * modify password
 		 */
 	    public String modifyPassword() {
 	    	String flag = "error";

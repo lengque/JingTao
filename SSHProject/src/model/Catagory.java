@@ -6,13 +6,14 @@ public class Catagory {
 	private String name;
 	private String descr;
 	private int grade;
-
+    //get describe
 	public String getDescr() {
 		return descr;
 	}
 
 	public void setDescr(String descr) {
 		this.descr = descr;
+		
 	}
 
 	public int getGrade() {

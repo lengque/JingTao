@@ -24,13 +24,13 @@ public class UserDao extends HibernateDaoSupport implements BaseDao {
     public void saveObject(Object obj){
 		//getSession().save(obj);
 		//this.saveObject(obj);
-	    //SessionFactory s = getSessionFactory();
-		Session se =this.getSession();
-	    this.getHibernateTemplate().saveOrUpdate(obj);
-	    //session.beginTransaction();
-		//session.save(obj);
-		//session.getTransaction().commit();
-		//session.close();
+	    SessionFactory s = getSessionFactory();
+		Session session = s.getCurrentSession();
+	    //this.getHibernateTemplate().saveOrUpdate(obj);
+	    session.beginTransaction();
+		session.save(obj);
+		session.getTransaction().commit();
+		session.close();
 		
 		//this.getHibernateTemplate().save(obj);
     }

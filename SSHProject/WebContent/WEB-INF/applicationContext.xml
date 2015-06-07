@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>  
-<beans xmlns="http://www.springframework.org/schema/beans"  
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
-    xsi:schemaLocation="http://www.springframework.org/schema/beans  
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
     <!-- 定义数据源的信息 -->  
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"  
@@ -31,7 +42,7 @@
         <property name="maxIdleTime">  
             <value>20</value>  
         </property>  
-    </bean>  
+    </bean>
   
     <!--定义Hibernate的SessionFactory -->  
     <!-- SessionFactory使用的数据源为上面的数据源 -->  
@@ -46,8 +57,10 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
                 <prop key="show_sql">true</prop>  
                 <prop key="hibernate.jdbc.batch_size">20</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">true</prop>
             </props>  
-        </property> 
+        </property>
         
         <property name="mappingResources">  
             <list>  
@@ -60,17 +73,40 @@
     <bean id="transactionManager"  
         class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
         <property name="sessionFactory" ref="sessionFactory" />
-    </bean>  
+    </bean>
+    
+  	<!-- 事务拦截器 -->
+  	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<!-- 事务拦截器bean需要依赖注入一个事务管理器 -->
+		<property name="transactionManager" ref="transactionManager" />
+		
+		<property name="transactionAttributes">
+			<!-- 下面定义事务传播属性 -->
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="check*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+  	
   	
   	<!-- 管理用户 -->  
     <bean id="userController" class="controller.UserController">  
         <property name="userService" ref="userService"/>
+        <property name="userConverter" ref="userConverter"/>
     </bean>
   	
   	<!-- userDao -->
+  	<bean id="baseDao" class="daoImpl.BaseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <bean id="userDao" class="daoImpl.UserDao">
-        <property name="sessionFactory" ref="sessionFactory"/>  
-    </bean>  
+          <property name="baseDao" ref="baseDao"/>
+    </bean>
     
     <!--user service -->
 	<bean id="userService" class="serviceImpl.UserServiceImpl">  

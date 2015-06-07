@@ -1,29 +1,27 @@
 package dao;
 
-import org.hibernate.HibernateException;
-
-public interface BaseDao {  
+public interface BaseDao<T> {  
 	/**
-	 * <p>´æ´¢Ò»¸ö¶ÔÏóµ½Êı¾İ¿âÖĞ</p>
+	 * <p>ä¿å­˜</p>
 	 * 
 	 */
-	public void saveObject(Object obj) throws HibernateException;
+	public T saveObject(T object);
 	
 	/**
-	 * <p>²éÕÒÒ»¸ö ¶ÔÏó</p>
+	 * <p>æ£€ç´¢</p>
 	 * 
 	 */
-	public Object checkObjet(String sql);
+	public T checkObject(T object);
 	
 	/**
-	 * <p>É¾³ıÒ»¸ö ¶ÔÏó</p>
+	 * <p>åˆ é™¤</p>
 	 * 
 	 */
-	public void deleteObject(String sql);
+	public T deleteObject(T object);
 	
 	/**
-	 * <p>¸üĞÂÒ»¸ö ¶ÔÏó</p>
+	 * <p>æ›´æ–°</p>
 	 * 
 	 */
-	public Object updateObject(Object obj);
+	public T updateObject(T object);
 }  

@@ -12,85 +12,72 @@ import org.apache.commons.lang.StringUtils;
 
 import dao.BaseDao;
 
-  
+/**
+*用户与数据库的接触
+*/
 
-public class UserDao extends HibernateDaoSupport implements BaseDao {
+public class UserDao{
+	BaseDao<User> baseDao;
 	
+	public BaseDao<User> getBaseDao() {
+		return baseDao;
+	}
+
+	public void setBaseDao(BaseDao<User> baseDao) {
+		this.baseDao = baseDao;
+	}
+
 	/**
-	 *
-	 * 
+	 *新增一个用户
 	 */
-	@Override  
-    public void saveObject(Object obj){
-		//getSession().save(obj);
-		//this.saveObject(obj);
-	    SessionFactory s = getSessionFactory();
-		Session session = s.getCurrentSession();
-	    //this.getHibernateTemplate().saveOrUpdate(obj);
-	    session.beginTransaction();
-		session.save(obj);
-		session.getTransaction().commit();
-		session.close();
-		
-		//this.getHibernateTemplate().save(obj);
+    public void saveUser(User user){
+    	
+    	baseDao.saveObject(user);
     }
 	
 	/**
-	 *
-	 * 
+	 * 检索一个用户
 	 */
-	@Override  
-    public Object checkObjet(String sql) throws HibernateException {
+    public User checkUser(User user){
 		
-	    SessionFactory s = getSessionFactory();
-	    Session session = s.openSession();
-	    session.beginTransaction();
+      /*StringBuffer checkSql = new StringBuffer("select userid,username,password,telphone from user where 1=1");
+    	String checkSql = "from User";
+    	
+    	
+	    //按照用户名来查找用户
+	    if(StringUtils.isNotBlank(user.getUsername())){
+	    	checkSql.append(" AND username = '"+user.getUsername() +"'");
+	    	
+	    	if(StringUtils.isNotBlank(user.getPassword())){
+	    		checkSql.append(" AND password = '"+user.getPassword() +"'");
+	    	}
+	    }
+	     if(StringUtils.isNotBlank(user.getUserId())){
+	    	checkSql.append(" AND userId = '"+user.getUserId() +"'");
+	    }
+		
+	    user = (User)baseDao.checkObject(checkSql.toString());
+	    */
+	    user = baseDao.checkObject(user);
 	    
-		List list = session.createSQLQuery(sql).addEntity("ss",User.class).list();
-		
-		Object obj = null;
-		if(list.size()>0){
-			obj = list.get(0);
-		}
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		return obj;
+	    
+	    
+		return user;
     }
 	
 	/**
-	 * 
+	 *删除用户
 	 */
-	@Override
-	public void deleteObject(String sql) {
-		SessionFactory s = getSessionFactory();
-	    Session session = s.openSession();
-	    session.beginTransaction();
-	    
-		session.update(sql, User.class);
-		
-		session.getTransaction().commit();
-		session.close();
+	public void deleteUser(User user) {
+	    baseDao.deleteObject(user);
 	}
 	
 	/**
-	 * 
-	 * 
+	 *更新用户信息
 	 */
-	@Override
-	public Object updateObject(Object obj) {
+	public Object updateObject(User user) {
 		
-		SessionFactory s = getSessionFactory();
-	    Session session = s.openSession();
-	    session.beginTransaction();
-	    
-	    session.update(obj);
-		//session.update(sql, User.class);
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		return null;
+		user = baseDao.updateObject(user);
+		return user;
 	}
 }  

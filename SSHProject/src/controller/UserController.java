@@ -9,36 +9,16 @@ import model.User;
 import model.UserDTO;
 import Exception.BaseException;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import converter.UserConverter;
 
 public class UserController extends ActionSupport {
-		//private Map<String,Object> sessionContext = ActionContext.getContext().getSession();
-		//service
-	    private UserService userService;
 	    
-	    private UserConverter userConverter;
-	    private UserDTO userDTO;
+		private UserService userService;
+		private UserConverter userConverter;
+		private UserDTO userDTO;
 	    
-	    
-	    /**
-		 * <p>userRegisterService</p>
-		 * 
-		 */
-	    public void setUserService(UserService userService) {  
-	        this.userService = userService;  
-	    }
-	    
-	    /**
-		 * <p>UserConverter</p>
-		 * 
-		 */
-		public void setUserConverter(UserConverter userConverter) {
-			this.userConverter = userConverter;
-		}
-		
 	    /**
 		 * user register
 		 */
@@ -83,7 +63,7 @@ public class UserController extends ActionSupport {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
-	        
+	        System.out.println("登陆成功");
 	        return SUCCESS;
 	    }
 	    
@@ -102,7 +82,7 @@ public class UserController extends ActionSupport {
 		    	User user = userConverter.modifyConverter(userDTO);
 		    	user.setPassword("12322");
 		    	//2.save the new info to db
-		    	this.userService.modifyInfo(user);
+		    	this.userService.updateInfo(user);
 	    	} catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);
@@ -119,10 +99,10 @@ public class UserController extends ActionSupport {
 	    public String modifyPassword() {
 	    	String flag = "error";
 	    	try {
-        		//convert userDto to user for password
+        		//convert userDTO to user for password
         		User user = userConverter.modifyPswConverter(userDTO);
         		//2.save the new password to db
-        		this.userService.modifyInfo(user);
+        		this.userService.updateInfo(user);
         		
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -150,17 +130,33 @@ public class UserController extends ActionSupport {
 	   
 	    
 	    /**
-		 * set userDto
+		 * set userDTO
 		 */
 		public UserDTO getUserDTO() {
 			return userDTO;
 		}
 
 		/**
-		 * get userDto
+		 * get userDTO
 		 * 
 		 */
 		public void setUserDTO(UserDTO userDTO) {
 			this.userDTO = userDTO;
+		}
+		
+		 /**
+		 * <p>userRegisterService</p>
+		 * 
+		 */
+	    public void setUserService(UserService userService) {  
+	        this.userService = userService;  
+	    }
+	    
+	    /**
+		 * <p>UserConverter</p>
+		 * 
+		 */
+		public void setUserConverter(UserConverter userConverter) {
+			this.userConverter = userConverter;
 		}
 }

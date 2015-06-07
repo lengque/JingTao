@@ -5,6 +5,7 @@ import java.util.List;
 import model.User;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import Exception.BaseException;
 import service.UserService;
@@ -13,17 +14,19 @@ import util.UserUtil;
 import validator.BaseValidator;
 import daoImpl.UserDao;
 
+@Transactional
 public class UserServiceImpl implements UserService {
 	
 	private UserDao userDao;
 	private List<BaseValidator> saveValidators;
 	private List<BaseValidator> modifyUserInfoValidators;
 	private List<BaseValidator> modifyUserPswValidators;
+	
 	/**
 	 * init the userDao
 	 */
 	public void setUserDao(UserDao userdao) {  
-	    this.userDao = userdao;  
+	    this.userDao = userdao;
 	}
 	
 	/**
@@ -54,18 +57,7 @@ public class UserServiceImpl implements UserService {
 	public User checkUser(User u) {
 		User user = null;
 		
-		String str = "select userid,username,password,telphone from user where 1=1";
-	    StringBuffer sql = new StringBuffer(str);
-	    
-	    if(StringUtils.isNotBlank(u.getUsername())){
-	    	sql.append(" AND username = '"+u.getUsername() +"'");
-	    	
-	    	if(StringUtils.isNotBlank(u.getPassword())){
-	    		sql.append(" AND password = '"+u.getPassword() +"'");
-	    		
-	    		user = (User) userDao.checkObjet(sql.toString());
-	    	}
-	    }
+		
 	    
 		return user;
 	}
@@ -80,7 +72,7 @@ public class UserServiceImpl implements UserService {
 			validator.validate(u);
 		}
 		//2.save object
-    	userDao.saveObject(u);
+    	userDao.saveUser(u);
     	
     	return u;
     }
@@ -97,7 +89,7 @@ public class UserServiceImpl implements UserService {
 		//change the user state 
 		user.setState(UserUtil.disable);
 		//save the state
-		userDao.saveObject(user);
+		userDao.saveUser(user);
 	}
 
     /**
@@ -106,17 +98,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User login(User u) {
 		//check the user from DB
-		User user = checkUser(u);
+		User user = userDao.checkUser(u);
 		
 		if(null == user || user.getState()==UserUtil.disable){
-			//username not exist
+			//user not exist
 			throw new BaseException(ErrorList.UserName_Not_Exist);
 		}
 		if(user.getState()==UserUtil.pause){
 			//user temporaily close
 			throw new BaseException(ErrorList.Temporarily_Closed);
 		}
-		if(StringUtils.equals(u.getPassword(), user.getPassword())){
+		if(!StringUtils.equals(u.getPassword(), user.getPassword())){
 			//password not equal 
 			throw new BaseException(ErrorList.Password_not_Correct);
 		}
@@ -125,7 +117,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User modifyInfo(User u) {
+	public User updateInfo(User u) {
 		//validate the user
 		for(BaseValidator validator : modifyUserInfoValidators ){
 			validator.validate(u);
@@ -163,7 +155,7 @@ public class UserServiceImpl implements UserService {
 	 * modify user password 
 	 */
 	@Override
-	public User modifyPsw(User user, String newPsw) {
+	public User updatePsw(User user, String newPsw) {
 		//find the user from DB
 		User userInDB  =  checkUser(user);
 		

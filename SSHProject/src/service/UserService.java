@@ -31,13 +31,13 @@ public interface UserService {
 	 * modify user info
 	 * 
 	 */
-	public User modifyInfo(User u);
+	public User updateInfo(User u);
 	
 	/**
 	 *modify user password
 	 * 
 	 */
-	public User modifyPsw(User u,String newPsw);
+	public User updatePsw(User u,String newPsw);
 	
 	
 	

@@ -8,16 +8,16 @@ public class UserDTO {
 	private String primitivePsw;
 	private String password;
 	private String confirmPsw;
-	//用户详细信息
+	//鍩烘湰淇℃伅
 	private String IdCardNo;
 	private String realName;
-	private int gender;
+	private Integer gender;
     private String telphone;
     private String email;
     private String address;
-    //后台维护信息
-    private int grade;
-    private int state;
+    //鍚庡彴缁存姢淇℃伅
+    private Integer grade;
+    private Integer state;
     private Timestamp createTime;
     private Timestamp updateTime;
 	
@@ -69,10 +69,10 @@ public class UserDTO {
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
-	public int getGender() {
+	public Integer getGender() {
 		return gender;
 	}
-	public void setGender(int gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 	public String getEmail() {
@@ -87,16 +87,16 @@ public class UserDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
-	public void setGrade(int grade) {
+	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
-	public int getState() {
+	public Integer getState() {
 		return state;
 	}
-	public void setState(int state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 	public Timestamp getCreateTime() {
@@ -111,6 +111,4 @@ public class UserDTO {
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
-	
-	
 }

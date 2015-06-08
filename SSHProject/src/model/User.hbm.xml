@@ -85,4 +85,7 @@
      		</column>
    		</property>
     </class>
+    <query name="getUserById">
+     	<![CDATA[from User where USERID=:USERID]]>
+    </query>
 </hibernate-mapping>

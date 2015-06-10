@@ -2,6 +2,8 @@ package serviceImpl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import model.User;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,8 +18,8 @@ import daoImpl.UserDao;
 
 @Transactional
 public class UserServiceImpl implements UserService {
-	
 	private UserDao userDao;
+	
 	private List<BaseValidator> saveValidators;
 	private List<BaseValidator> modifyUserInfoValidators;
 	private List<BaseValidator> modifyUserPswValidators;
@@ -102,7 +104,7 @@ public class UserServiceImpl implements UserService {
 		
 		if(null == user || user.getState()==UserUtil.disable){
 			//user not exist
-			throw new BaseException(ErrorList.UserName_Not_Exist);
+			throw new BaseException(ErrorList.User_Not_Exist);
 		}
 		if(user.getState()==UserUtil.pause){
 			//user temporaily close
@@ -117,38 +119,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateInfo(User u) {
-		//validate the user
+	public User updateInfo(User user) {
+		//validate the userInfo
 		for(BaseValidator validator : modifyUserInfoValidators ){
-			validator.validate(u);
+			validator.validate(user);
 		}
-		boolean flag = false;
+		
 		//update the user to db
-		userDao.updateObject(u);
-		/*StringBuffer preSql = new StringBuffer("UPDATE User SET ");
-		if(StringUtils.isNotBlank(u.getAddress())){
-			preSql.append("Address = '"+u.getAddress()+"'");
-			flag = true;
-		}
-		if(flag = true){
-			preSql.append(", ");
-		}
+		user = (User) userDao.updateUser(user);
 		
-		if(StringUtils.isNotBlank(u.getEmail())){
-			preSql.append("Email = '"+u.getEmail()+"'");
-			flag = true;
-		}
-		if(flag = true){
-			preSql.append(", ");
-		}
-
-		if(flag){
-			userDao.updateObject(preSql.toString());
-		}*/
-		
-		
-		//return user 
-		return u;
+		return user;
 	}
 	
 	 /**
@@ -165,7 +145,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//save the new password
-		userDao.updateObject(user);
+		userDao.updateUser(user);
 		
 		return user;
 	}

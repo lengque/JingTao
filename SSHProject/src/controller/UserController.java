@@ -3,6 +3,8 @@ package controller;
 
 import java.util.Map;
 
+import javax.annotation.Resources;
+
 import service.UserService;
 import util.UserUtil;
 import model.User;
@@ -51,7 +53,7 @@ public class UserController extends ActionSupport {
 		    	User u = userService.login(user);
 		    	
 		    	//3.convert the user to userDTO
-		    	userDTO = userConverter.loginReverseConverter(u);
+		    	userDTO = userConverter.reverseConverter(u);
 		    	//4.set the log in state to session and return the userDTO
 		    	
 		    	//sessionContext.put("userId",u.getUserId());
@@ -80,9 +82,13 @@ public class UserController extends ActionSupport {
 	    	try {
 		    	//1.convert the userDTO to user
 		    	User user = userConverter.modifyConverter(userDTO);
-		    	user.setPassword("12322");
+		    	
 		    	//2.save the new info to db
-		    	this.userService.updateInfo(user);
+		    	user = this.userService.updateInfo(user);
+		    	
+		    	//3.convert user to UserDto
+		    	userDTO = userConverter.reverseConverter(user);
+		    	
 	    	} catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);

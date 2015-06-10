@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -30,8 +31,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	public T saveObject(T object){
 		sessionFactory = getSessionFactory();
 		session = sessionFactory.getCurrentSession();
-		
-		//session.save(saveSql);
+		session.save(object);
 		
 		return object;
 	}
@@ -97,11 +97,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 
 	@Override
 	public T updateObject(T object){
-		session = sessionFactory.getCurrentSession();
+		sessionFactory = getSessionFactory();
+		session = sessionFactory.openSession();
 		
-		//session.update(updateSql);
+		session.update(object);
 		
-		return null;
+		return object;
 	}
 
 }

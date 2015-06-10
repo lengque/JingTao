@@ -3,7 +3,7 @@ package util;
 public class UserUtil {
 	
 	/**
-	 * ÓÃ»§×´Ì¬ 1.ÓĞĞ§ 2.ÔİÍ£ 3.×¢Ïú
+	 * è´¦å·çŠ¶æ€ 1.æ´»è·ƒ 2.æš‚åœä½¿ç”¨ 3.å·²ç»åˆ é™¤
 	 */
 	public static String UserAccountState = "user_account_state";
 	public static int effective = 1;
@@ -11,7 +11,7 @@ public class UserUtil {
 	public static int disable = 3;
 	
 	/**
-	 * ÓÃ»§ĞÔ±ğ 1.ÄĞĞÔ 2.Å®ĞÔ
+	 * ï¿½Ã»ï¿½ï¿½Ô±ï¿½ 1.ï¿½ï¿½ï¿½ï¿½ 2.Å®ï¿½ï¿½
 	 */
 	public static String UserGender = "user_Gender";
 	public static int male = 1;

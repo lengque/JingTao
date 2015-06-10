@@ -43,7 +43,6 @@
             <value>20</value>  
         </property>  
     </bean>
-  
     <!--定义Hibernate的SessionFactory -->  
     <!-- SessionFactory使用的数据源为上面的数据源 -->  
     <!-- 指定了Hibernate的映射文件和配置信息 -->  
@@ -52,8 +51,8 @@
         <property name="dataSource">  
             <ref local="dataSource" />  
         </property>  
-        <property name="hibernateProperties">  
-            <props>  
+        <property name="hibernateProperties">
+            <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
                 <prop key="show_sql">true</prop>  
                 <prop key="hibernate.jdbc.batch_size">20</prop>  
@@ -75,6 +74,9 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
+    <!-- enables scanning for @Transactional annotations -->
+	<tx:annotation-driven/>
+	
   	<!-- 事务拦截器 -->
   	<bean id="transactionInterceptor"
 		class="org.springframework.transaction.interceptor.TransactionInterceptor">
@@ -91,6 +93,22 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 自动代理 -->
+	<bean id="autoProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>	
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	
   	
   	
   	<!-- 管理用户 -->  
@@ -104,14 +122,14 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id="userDao" class="daoImpl.UserDao">
+     <bean id="userDao" class="daoImpl.UserDao">
           <property name="baseDao" ref="baseDao"/>
-    </bean>
+    </bean> 
     
     <!--user service -->
 	<bean id="userService" class="serviceImpl.UserServiceImpl">  
-        <property name="userDao" ref="userDao"/>
-        <property name="saveValidators">
+       <property name="userDao" ref="userDao"/>
+       <property name="saveValidators">
         	<list>
                 <ref bean="userNameExistValidator" />
         	</list>
@@ -135,6 +153,8 @@
     
     <!-- validators start -->
     <!-- username is exist in db -->
-    <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator"/>
+    <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator">
+    	<property name="userDao" ref="userDao"/>
+    </bean>
     <!-- validators end -->
 </beans>  

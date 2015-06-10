@@ -14,7 +14,7 @@ import model.UserDTO;
 public class UserConverter {
 	
 	/**
-	 * 
+	 * 将前台DTO对象数据放到User中
 	 * 
 	 */
 	public User registerConverter(UserDTO userDTO){
@@ -24,7 +24,7 @@ public class UserConverter {
 			String userName = userDTO.getUserName();
 			String password = userDTO.getPassword();
 			String conPsw = userDTO.getConfirmPsw();
-			String telphone = userDTO.getTelphone();
+			Integer gender = userDTO.getGender();
 			
 			if(StringUtils.isBlank(userName)){
 				//throw exception
@@ -48,25 +48,12 @@ public class UserConverter {
 				//throw exception
 				throw new BaseException(ErrorList.Password_Diffirent_From_ConfirmPsw);
 			}
-			
-			if(!StringUtils.equals(password, conPsw)){
-				//throw exception
-				throw new BaseException(ErrorList.Password_Diffirent_From_ConfirmPsw);
-			}
 			user.setPassword(password);
 			
-			if(StringUtils.isBlank(telphone)){
-				//throw exception
-				throw new BaseException(ErrorList.Tel_Is_Blank);
-			}
-			//if(telphone.length()!=11){
-				//throw exception
-				//throw new BaseException(ErrorList.Tel_Length_Error);
-			//}
-			user.setTelphone(telphone);
-			
+			//设置创建时间和信息更新时间
 			user.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+			//设置用户状态为活跃状态
 			user.setState(UserUtil.effective);
 		}else {
 			//throw exception
@@ -111,7 +98,7 @@ public class UserConverter {
 	 * 
 	 * 
 	 */
-	public UserDTO loginReverseConverter(User user){
+	public UserDTO reverseConverter(User user){
 		UserDTO userDto = new UserDTO();
 		if(user !=null ){
 			userDto.setAddress(user.getAddress());
@@ -147,13 +134,13 @@ public class UserConverter {
 				user.setPassword(originalPsw);
 			}else {
 				//throw exception
-				throw new BaseException(ErrorList.Original_Password_Is_Blank);
+				throw new BaseException(ErrorList.Original_Password_Not_Correct);
 			}
 			
 			String newPsw = userDTO.getPassword();
 			if(StringUtils.isBlank(newPsw)){
 				//throw exception
-				throw new BaseException(ErrorList.New_Password_Is_Blank);
+				throw new BaseException(ErrorList.Password_Is_Blank);
 			}
 			
 			String confPsw = userDTO.getConfirmPsw();
@@ -167,14 +154,17 @@ public class UserConverter {
 	}
 	
 	/**
-	 * 
+	 * 更改用户信息
+	 * 对于用户信息的更改以UUID为准
 	 */
 	public User modifyConverter(UserDTO userDTO){
 		User user = new User();
 		
 		if(null != userDTO){
+			//Id 和 username不允许更改
 			user.setUserId(userDTO.getUserId());
 			user.setUsername(userDTO.getUserName());
+			
 			//set IdCardNo
 			String IdCardNo = userDTO.getIdCardNo();
 			if(StringUtils.isNotBlank(IdCardNo)){
@@ -192,9 +182,10 @@ public class UserConverter {
 				}
 				user.setRealName(realName);
 			}
+			
 			//set gender
-			int gender = userDTO.getGender();
-			if(gender != UserUtil.male && gender != UserUtil.female ){
+			Integer gender = userDTO.getGender();
+			if(!gender.equals(UserUtil.male) && gender.equals(UserUtil.female) ){
 				throw new BaseException(ErrorList.Gender_Error);
 			}
 			user.setGender(gender);

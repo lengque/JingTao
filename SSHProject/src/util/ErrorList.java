@@ -13,8 +13,10 @@ public class ErrorList {
 	public static String Password_Too_Long = "密码这么长，伦家记不住了！";
 	public static String Password_Diffirent_From_ConfirmPsw = "两次密码要一样哦";
 	public static String Password_not_Correct = "密码好像不正确呢！";
-	public static String Original_Password_Not_Correct = "初始密码不正确";
+	public static String Original_Password_Not_Correct = "原始密码不正确";
 
+	//Login
+	public static String User_Not_LogIn = "用户未登陆";
 	//telphone
 	public static String Tel_Is_Blank = "�ֻ������£��ɲ�����!";
 	public static String Tel_Length_Error = "��ȷ������ֻ�����û��������";

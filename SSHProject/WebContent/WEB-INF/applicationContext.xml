@@ -157,4 +157,8 @@
     	<property name="userDao" ref="userDao"/>
     </bean>
     <!-- validators end -->
+    
+    <!--interceptors start-->
+    <bean id="loginInterceptor" class="Interceptor.LoginInterceptor"/>
+    <!--interceptors end-->
 </beans>  

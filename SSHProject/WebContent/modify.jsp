@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
-<title>登陆页面</title>
+<title>修改用户信息</title>
 </head>
 <body>
 <form name="register" action="user/modifyInfo" method="post" onsubmit="checkData()" enctype="multipart/form-data">

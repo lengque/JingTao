@@ -5,22 +5,27 @@ import java.util.Map;
 
 import javax.annotation.Resources;
 
+import org.apache.catalina.Session;
+import org.apache.struts2.interceptor.SessionAware;
+
 import service.UserService;
 import util.UserUtil;
 import model.User;
 import model.UserDTO;
 import Exception.BaseException;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import converter.UserConverter;
 
-public class UserController extends ActionSupport {
+public class UserController extends ActionSupport implements SessionAware{
 	    
 		private UserService userService;
 		private UserConverter userConverter;
 		private UserDTO userDTO;
-	    
+		protected Map<String, Object> session;
+		
 	    /**
 		 * user register
 		 */
@@ -54,10 +59,11 @@ public class UserController extends ActionSupport {
 		    	
 		    	//3.convert the user to userDTO
 		    	userDTO = userConverter.reverseConverter(u);
-		    	//4.set the log in state to session and return the userDTO
 		    	
-		    	//sessionContext.put("userId",u.getUserId());
-		    	//sessionContext.put("userName", u.getUsername());
+		    	//4.set the log in state to session and return the userDTO
+		    	session.put("userId", u.getUserId());
+		    	session.put("userName", u.getUserName());
+		    	session.put("password", u.getPassword());
 		    	
 	        } catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
@@ -65,6 +71,7 @@ public class UserController extends ActionSupport {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	        
 	        System.out.println("登陆成功");
 	        return SUCCESS;
 	    }
@@ -84,7 +91,7 @@ public class UserController extends ActionSupport {
 		    	User user = userConverter.modifyConverter(userDTO);
 		    	
 		    	//2.save the new info to db
-		    	user = this.userService.updateInfo(user);
+		    	user = this.userService.updateUserInfo(user);
 		    	
 		    	//3.convert user to UserDto
 		    	userDTO = userConverter.reverseConverter(user);
@@ -103,19 +110,21 @@ public class UserController extends ActionSupport {
 		 * modify password
 		 */
 	    public String modifyPassword() {
-	    	String flag = "error";
 	    	try {
         		//convert userDTO to user for password
-        		User user = userConverter.modifyPswConverter(userDTO);
+        		User user = userConverter.modifyPswConverter(userDTO,session);
         		//2.save the new password to db
-        		this.userService.updateInfo(user);
+        		user = this.userService.updateUserPsw(user);
         		
+        		//3.log out and go to log on page
+        		session.clear();
+		    	
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            return "error";
 	        }
-	        
-	        return flag;
+	    	
+	        return "login";
 	    }
 	    
 	    /**
@@ -164,5 +173,15 @@ public class UserController extends ActionSupport {
 		 */
 		public void setUserConverter(UserConverter userConverter) {
 			this.userConverter = userConverter;
+		}
+		
+		 /**
+		 * <p>注入session</p>
+		 * 
+		 */
+		@Override
+		public void setSession(Map<String, Object> session) {
+			// TODO Auto-generated method stub
+			this.session = session;
 		}
 }

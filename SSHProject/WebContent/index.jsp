@@ -7,7 +7,7 @@
 <title>主页面</title>
 </head>
 <body>
-<form name="register" action="user/login" method="post" onsubmit="checkData()" enctype="multipart/form-data">
+<form name="register" action="login" method="post" onsubmit="checkData()" enctype="multipart/form-data">
 			<table width="750" align="center">
 				<tr>
 					<td>用户名</td>

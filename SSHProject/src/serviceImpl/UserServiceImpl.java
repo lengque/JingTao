@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateInfo(User user) {
+	public User updateUserInfo(User user) {
 		//validate the userInfo
 		for(BaseValidator validator : modifyUserInfoValidators ){
 			validator.validate(user);
@@ -135,17 +135,14 @@ public class UserServiceImpl implements UserService {
 	 * modify user password 
 	 */
 	@Override
-	public User updatePsw(User user, String newPsw) {
-		//find the user from DB
-		User userInDB  =  checkUser(user);
-		
+	public User updateUserPsw(User user) {
 		//validate the user
 		for(BaseValidator validator : modifyUserPswValidators ){
-			validator.validate(userInDB);
+			validator.validate(user);
 		}
 		
 		//save the new password
-		userDao.updateUser(user);
+		user = (User) userDao.updateUser(user);
 		
 		return user;
 	}

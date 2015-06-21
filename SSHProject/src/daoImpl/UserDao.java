@@ -67,7 +67,7 @@ public class UserDao{
     
     public User checkUserByID(User user){
     	User u = new User();
-    	u.setUsername(user.getUserId());
+    	u.setUserName(user.getUserId());
     	
     	u = baseDao.checkObject(u);
     	
@@ -77,7 +77,7 @@ public class UserDao{
     //根据用户名来检索用户
     public User checkUserByName(User user){
     	User u = new User();
-    	u.setUsername(user.getUsername());
+    	u.setUserName(user.getUserName());
     	
     	u = baseDao.checkObject(u);
     	

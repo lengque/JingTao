@@ -2,6 +2,8 @@ package serviceImpl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import model.User;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,12 +18,12 @@ import daoImpl.UserDao;
 
 @Transactional
 public class UserServiceImpl implements UserService {
-	
 	private UserDao userDao;
+	
 	private List<BaseValidator> saveValidators;
 	private List<BaseValidator> modifyUserInfoValidators;
 	private List<BaseValidator> modifyUserPswValidators;
-	
+	private List<BaseValidator>	deleteUserValidators;
 	/**
 	 * init the userDao
 	 */
@@ -46,8 +48,15 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * init validators for save method
 	 */
-	public void setModifyUserPswValidators(List<BaseValidator> modifyUserPswValidators) {
+	public void setDeleteUserValidators(List<BaseValidator> modifyUserPswValidators) {
 		this.modifyUserPswValidators = modifyUserPswValidators;
+	}
+	
+	/**
+	 * init validators for delete method
+	 */
+	public void setModifyUserPswValidators(List<BaseValidator> deleteUserValidators) {
+		this.deleteUserValidators = deleteUserValidators;
 	}
 	
 	/**
@@ -83,13 +92,15 @@ public class UserServiceImpl implements UserService {
     @Override
 	public void deleteUser(User user) {
 		//check the user state 
-		int frontPageState = user.getState();
-		
-		int DBUserState = user.getState();
+    	//1.validate the user data
+    	//check the user is exist
+		for(BaseValidator validator : deleteUserValidators){
+			validator.validate(user);
+		}
 		//change the user state 
 		user.setState(UserUtil.disable);
 		//save the state
-		userDao.saveUser(user);
+		userDao.updateUser(user);
 	}
 
     /**
@@ -102,7 +113,7 @@ public class UserServiceImpl implements UserService {
 		
 		if(null == user || user.getState()==UserUtil.disable){
 			//user not exist
-			throw new BaseException(ErrorList.UserName_Not_Exist);
+			throw new BaseException(ErrorList.User_Not_Exist);
 		}
 		if(user.getState()==UserUtil.pause){
 			//user temporaily close
@@ -117,55 +128,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateInfo(User u) {
-		//validate the user
+	public User updateUserInfo(User user) {
+		//validate the userInfo
 		for(BaseValidator validator : modifyUserInfoValidators ){
-			validator.validate(u);
+			validator.validate(user);
 		}
-		boolean flag = false;
+		
 		//update the user to db
-		userDao.updateObject(u);
-		/*StringBuffer preSql = new StringBuffer("UPDATE User SET ");
-		if(StringUtils.isNotBlank(u.getAddress())){
-			preSql.append("Address = '"+u.getAddress()+"'");
-			flag = true;
-		}
-		if(flag = true){
-			preSql.append(", ");
-		}
+		user = (User) userDao.updateUser(user);
 		
-		if(StringUtils.isNotBlank(u.getEmail())){
-			preSql.append("Email = '"+u.getEmail()+"'");
-			flag = true;
-		}
-		if(flag = true){
-			preSql.append(", ");
-		}
-
-		if(flag){
-			userDao.updateObject(preSql.toString());
-		}*/
-		
-		
-		//return user 
-		return u;
+		return user;
 	}
 	
 	 /**
 	 * modify user password 
 	 */
 	@Override
-	public User updatePsw(User user, String newPsw) {
-		//find the user from DB
-		User userInDB  =  checkUser(user);
-		
+	public User updateUserPsw(User user) {
 		//validate the user
 		for(BaseValidator validator : modifyUserPswValidators ){
-			validator.validate(userInDB);
+			validator.validate(user);
 		}
 		
 		//save the new password
-		userDao.updateObject(user);
+		user = (User) userDao.updateUser(user);
 		
 		return user;
 	}

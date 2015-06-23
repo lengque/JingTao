@@ -2,38 +2,40 @@ package util;
 
 public class ErrorList {
 	
-	public static String Sys999 = "³ÌĞò³öÏÖ´íÎó";
+	public static String Sys999 = "ç³»ç»Ÿçº§é”™è¯¯";
 	//Username
-	public static String UserName_Is_Blank = "ÉÙÄêÀÉ£¬Äã½ĞÊ²Ã´?";
-	public static String UserName_Too_Long = "ÉÙÄêÀÉ£¬ÕâÃ´³¤µÄÃû×ÖÄãÄÜ¼Ç×¡Âğ£¿";
-	public static String UserName_Is_Exist = "ÉÙÄêÀÉ£¬ÄÜ²»ÄÜÔÙÓĞÒ»µã´´ÔìÁ¦!";
-	public static String UserName_Not_Exist = "ÉÙÄêÀÉ£¬ÄãÈ·¶¨ÄãµÄÃû×ÖÃ»ÓĞÎÊÌâ£¿";
+	public static String UserName_Is_Blank = "çˆ·ï¼Œèµä¸ªåå­—å§ï¼";
+	public static String UserName_Too_Long = "åå­—è¿™ä¹ˆé•¿ï¼Œè®°å¾—ä½å—ï¼Ÿ";
+	public static String UserName_Is_Exist = "è¿™ä¸ªåå­—å·²è¢«æŠ¢ï¼";
+	public static String User_Not_Exist = "äº²ï¼Œè‡ªå·±çš„åå­—éƒ½å¿˜äº†å—ï¼Ÿ";
 	//password
-	public static String Password_Is_Blank = "ÃÜÂë¶¼²»ÒªÁËÂğ£¿";
-	public static String Password_Too_Long = "ÕâÃ´³¤µÄÃÜÂë£¬ÕæµÄºÃÂğ£¿";
-	public static String Password_Diffirent_From_ConfirmPsw = "Á½¸öÃÜÂë¶¼²»Ò»Ñù£¬ÄãÕæÊÇ×íÁË";
-	public static String Password_not_Correct = "ÃÜÂëºÃÏñ²»¶ÔÅ¶£¡";
-	public static String Original_Password_Is_Blank = "Ô­ÃÜÂëÎª¿Õ";
-	public static String New_Password_Is_Blank = "ĞÂÃÜÂëÎª¿Õ";
+	public static String Password_Is_Blank = "ä¸è®¾å¯†ç çœŸçš„å¥½å—ï¼Ÿ";
+	public static String Password_Too_Long = "å¯†ç è¿™ä¹ˆé•¿ï¼Œä¼¦å®¶è®°ä¸ä½äº†ï¼";
+	public static String Password_Diffirent_From_ConfirmPsw = "ä¸¤æ¬¡å¯†ç è¦ä¸€æ ·å“¦";
+	public static String Password_not_Correct = "å¯†ç å¥½åƒä¸æ­£ç¡®å‘¢ï¼";
+	public static String Original_Password_Not_Correct = "åŸå§‹å¯†ç ä¸æ­£ç¡®";
+
+	//Login
+	public static String User_Not_LogIn = "ç”¨æˆ·æœªç™»é™†";
 	//telphone
-	public static String Tel_Is_Blank = "ÊÖ»úºÅÁôÏÂ£¬¿É²»¿ÉÒÔ!";
-	public static String Tel_Length_Error = "ÄãÈ·¶¨ÄãµÄÊÖ»úºÅÂëÃ»ÓĞÎÊÌâÂğ£¿";
+	public static String Tel_Is_Blank = "ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½É²ï¿½ï¿½ï¿½ï¿½ï¿½!";
+	public static String Tel_Length_Error = "ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
 	//state
-	public static String Temporarily_Closed = "ÔİÍ£·şÎñ";
+	public static String Temporarily_Closed = "ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½";
 	
 	//ID card
-	public static String Id_Card_No_Fromat_Error = "Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎÊÌâÅ¶";
+	public static String Id_Card_No_Fromat_Error = "ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¶";
 	
 	//realName
-	public static String Real_Name_Is_Too_Long = "ĞÕÃû³¬¹ı×î³¤ÏŞÖÆ";
+	public static String Real_Name_Is_Too_Long = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î³¤ï¿½ï¿½ï¿½ï¿½";
 	
 	//gender
-	public static String Gender_Error = "ÄãµÄĞÔ±ğÑ¡ÔñÓĞÎó";
+	public static String Gender_Error = "ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
 	//telphone
-	public static String Telphone_Format_Error = "ÇëÊäÈëÕıÈ·µÄ11Î»ÊÖ»úºÅÂë";
+	public static String Telphone_Format_Error = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½11Î»ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
 	//telphone
-	public static String Email_Format_Error = "ÇëÊäÈëÕıÈ·µÄÓÊÏäµØÖ·";
+	public static String Email_Format_Error = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·";
 }

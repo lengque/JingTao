@@ -64,6 +64,25 @@ public class UserDao{
 	    
 		return user;
     }
+    
+    public User checkUserByID(User user){
+    	User u = new User();
+    	u.setUserName(user.getUserId());
+    	
+    	u = baseDao.checkObject(u);
+    	
+    	return u;
+    }
+    
+    //根据用户名来检索用户
+    public User checkUserByName(User user){
+    	User u = new User();
+    	u.setUserName(user.getUserName());
+    	
+    	u = baseDao.checkObject(u);
+    	
+    	return u;
+    }
 	
 	/**
 	 *删除用户
@@ -75,9 +94,10 @@ public class UserDao{
 	/**
 	 *更新用户信息
 	 */
-	public Object updateObject(User user) {
+	public Object updateUser(User user) {
 		
 		user = baseDao.updateObject(user);
+		
 		return user;
 	}
 }  

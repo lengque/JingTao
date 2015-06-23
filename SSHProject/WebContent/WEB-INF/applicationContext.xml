@@ -108,8 +108,6 @@
 			</list>
 		</property>
 	</bean>
-	
-  	
   	
   	<!-- 管理用户 -->  
     <bean id="userController" class="controller.UserController">  
@@ -146,8 +144,13 @@
                 <ref bean="userNameExistValidator" />
         	</list>
         </property>
+        
+         <property name="deleteUserValidators">
+        	<list>
+                <ref bean="userNameExistValidator" />
+        	</list>
+        </property>
     </bean>
-   
     <!-- more bean definitions go here -->
     <bean id="userConverter" class="converter.UserConverter"/>
     

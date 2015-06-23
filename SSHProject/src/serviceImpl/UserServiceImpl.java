@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	private List<BaseValidator> saveValidators;
 	private List<BaseValidator> modifyUserInfoValidators;
 	private List<BaseValidator> modifyUserPswValidators;
-	
+	private List<BaseValidator>	deleteUserValidators;
 	/**
 	 * init the userDao
 	 */
@@ -48,8 +48,15 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * init validators for save method
 	 */
-	public void setModifyUserPswValidators(List<BaseValidator> modifyUserPswValidators) {
+	public void setDeleteUserValidators(List<BaseValidator> modifyUserPswValidators) {
 		this.modifyUserPswValidators = modifyUserPswValidators;
+	}
+	
+	/**
+	 * init validators for delete method
+	 */
+	public void setModifyUserPswValidators(List<BaseValidator> deleteUserValidators) {
+		this.deleteUserValidators = deleteUserValidators;
 	}
 	
 	/**
@@ -85,13 +92,15 @@ public class UserServiceImpl implements UserService {
     @Override
 	public void deleteUser(User user) {
 		//check the user state 
-		int frontPageState = user.getState();
-		
-		int DBUserState = user.getState();
+    	//1.validate the user data
+    	//check the user is exist
+		for(BaseValidator validator : deleteUserValidators){
+			validator.validate(user);
+		}
 		//change the user state 
 		user.setState(UserUtil.disable);
 		//save the state
-		userDao.saveUser(user);
+		userDao.updateUser(user);
 	}
 
     /**

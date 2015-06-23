@@ -13,7 +13,7 @@
       		<generator class="uuid"/>
     	</id>
         
-        <property name="username" type="java.lang.String">
+        <property name="userName" type="java.lang.String">
       		<column name="USERNAME" length="32">
         		<comment>用户名</comment>
       		</column>

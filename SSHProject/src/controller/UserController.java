@@ -26,6 +26,24 @@ public class UserController extends ActionSupport implements SessionAware{
 		private UserDTO userDTO;
 		protected Map<String, Object> session;
 		
+		/**
+		 * user list
+		 */
+	    public String userList() {
+	        try {
+        		
+        		userService.userList();
+        		
+	        } catch (BaseException e) {
+	        	String errorMessage = e.getMessage();
+	        	System.out.println(errorMessage);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return SUCCESS;
+	    }
+		
 	    /**
 		 * user register
 		 */
@@ -36,13 +54,33 @@ public class UserController extends ActionSupport implements SessionAware{
         		
         		//2.involk userService to save the user
         		userService.saveUser(user);
+        		
 	        } catch (BaseException e) {
 	        	String errorMessage = e.getMessage();
 	        	System.out.println(errorMessage);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	        
 	        return SUCCESS;
+	    }
+	    
+	    public String addNewUser() {
+	    	 try {
+		        	//1.convert the userDTO to user
+	        		User user = userConverter.registerConverter(userDTO);
+	        		
+	        		//2.involk userService to save the user
+	        		userService.saveUser(user);
+	        		
+		        } catch (BaseException e) {
+		        	String errorMessage = e.getMessage();
+		        	System.out.println(errorMessage);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        
+		        return SUCCESS;
 	    }
 	    
 	    /**
@@ -72,7 +110,6 @@ public class UserController extends ActionSupport implements SessionAware{
 	            e.printStackTrace();
 	        }
 	        
-	        System.out.println("登陆成功");
 	        return SUCCESS;
 	    }
 	    
@@ -159,7 +196,7 @@ public class UserController extends ActionSupport implements SessionAware{
 			this.userDTO = userDTO;
 		}
 		
-		 /**
+		/**
 		 * <p>userRegisterService</p>
 		 * 
 		 */

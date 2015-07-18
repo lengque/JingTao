@@ -1,9 +1,6 @@
 package model;
-
-import java.sql.Timestamp;
-
 //1.发布人2.类别（品牌）3.新旧4.物品状况5.价格6.照片7.标题8.详细描述
-public class Order {
+public class OrderDTO {
 	private String uuid;
 	private String userId;
 	private String title;
@@ -12,8 +9,6 @@ public class Order {
 	private double price;
 	private String image;
 	private String detail;
-	private Timestamp createTime;
-    private Timestamp updateTime;
 	
 	//uuid
 	public String getUuid() {
@@ -78,21 +73,4 @@ public class Order {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	
-	//create Time
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
-	
-	//update Time
-	public Timestamp getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Timestamp updateTime) {
-		this.updateTime = updateTime;
-	}
-	
 }

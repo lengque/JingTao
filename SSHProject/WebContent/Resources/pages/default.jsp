@@ -5,11 +5,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>无标题文档</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jsapi.js"></script>
-<script type="text/javascript" src="js/format+zh_CN,default,corechart.I.js"></script>		
-<script type="text/javascript" src="js/jquery.gvChart-1.0.1.min.js"></script>
-<script type="text/javascript" src="js/jquery.ba-resize.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/Resources/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/Resources/js/jsapi.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/Resources/js/format+zh_CN,default,corechart.I.js"></script>		
+<script type="text/javascript" src="${pageContext.request.contextPath }/Resources/js/jquery.gvChart-1.0.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/Resources/js/jquery.ba-resize.min.js"></script>
 
 <script type="text/javascript">
 		gvChartInit();
@@ -115,13 +115,13 @@
     <div class="listtitle"><a href="#" class="more1">添加</a>常用工具</div>
     
     <ul class="tooli">
-    <li><span><img src="images/d01.png" /></span><p><a href="#">信息资料</a></p></li>
-    <li><span><img src="images/d02.png" /></span><p><a href="#">编辑</a></p></li>
-    <li><span><img src="images/d03.png" /></span><p><a href="#">记事本</a></p></li>
-    <li><span><img src="images/d04.png" /></span><p><a href="#">任务日历</a></p></li>
-    <li><span><img src="images/d05.png" /></span><p><a href="#">图片管理</a></p></li>
-    <li><span><img src="images/d06.png" /></span><p><a href="#">交易</a></p></li>
-    <li><span><img src="images/d07.png" /></span><p><a href="#">档案袋</a></p></li>    
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d01.png" /></span><p><a href="#">信息资料</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d02.png" /></span><p><a href="#">编辑</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d03.png" /></span><p><a href="#">记事本</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d04.png" /></span><p><a href="#">任务日历</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d05.png" /></span><p><a href="#">图片管理</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d06.png" /></span><p><a href="#">交易</a></p></li>
+    <li><span><img src="${pageContext.request.contextPath }/Resources/images/d07.png" /></span><p><a href="#">档案袋</a></p></li>    
     </ul>
     
     </div>

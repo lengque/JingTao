@@ -13,16 +13,18 @@
        <action name="register" class="userController" method="register">
            <result name="success">/success.jsp</result>
        </action>
-       <!-- 登陆 -->
-       <action name="login" class="userController" method="login">
+       
+        <!-- 登陆 -->
+    	<action name="login" class="userController" method="login">
            <result name="success">/Resources/pages/main.jsp</result>
-       </action>
+       	</action>
     </package>
+     
     
     <!-- 每一个package对应一个业务逻辑 -->
     <package name="user" namespace="/user" extends="struts-default">
 	    <interceptors>
-	    	<!--登录验证 -->
+	    	<!-- 登录验证 -->
 			<interceptor name="loginVerify" class="loginInterceptor"/>
 			
 			<interceptor-stack name="verify">
@@ -32,24 +34,29 @@
 		</interceptors>
 		
 		<default-interceptor-ref name="verify"/>
-		<!-- 全局变量-->
+		<!-- 全局变量 -->
         <global-results>  
             <result name="login">/login.jsp</result>  
         </global-results>
        
-       <!-- 更新用户信息-->
-       <action name="modifyInfo" class="userController" method="modifyInfo">
+       <!-- 更新用户信息 -->
+        <action name="modifyInfo" class="userController" method="modifyInfo">
             <result name="success">/success.jsp</result>
         </action>
-         <!-- 更新用户密码-->
+        
+       	 <!-- 更新用户密码 -->
          <action name="modifyPsw" class="userController" method="modifyPassword">
             <result name="success">/success.jsp</result>
-        </action>
-         <!-- 删除一个用户-->
+         </action>
+         
+         <action name="addNewUser" class="userController" method="addNewUser">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <!-- 删除一个用户 -->
          <action name="deleteUser" class="userController" method="deleteUser">
             <result name="success">/success.jsp</result>
         </action>
     </package>
-    
      <!--UserController End-->
 </struts>

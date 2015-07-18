@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	private List<BaseValidator> modifyUserInfoValidators;
 	private List<BaseValidator> modifyUserPswValidators;
 	private List<BaseValidator>	deleteUserValidators;
+	
 	/**
 	 * init the userDao
 	 */
@@ -60,19 +61,26 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
-	 * check out a user from DB
+	 * 获取 用户列表
+	 */
+	public List<User> userList(){
+		List<User> userPage= userDao.userList();
+		
+		return userPage;
+	}
+	
+	/**
+	 * 查找一个特定的用户
 	 */
 	@Override
 	public User checkUser(User u) {
 		User user = null;
 		
-		
-	    
 		return user;
 	}
 
 	/**
-	 * add a new user
+	 * 保存一个用户
 	 */
     @Override  
     public User saveUser(User u){
@@ -87,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
     
     /**
-	 * delete a user
+	 * 删除一个用户
 	 */
     @Override
 	public void deleteUser(User user) {
@@ -104,7 +112,7 @@ public class UserServiceImpl implements UserService {
 	}
 
     /**
-	 *use login
+	 * 用户登陆
 	 */
 	@Override
 	public User login(User u) {
@@ -127,6 +135,9 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	/**
+	 * 更新用户信息
+	 */
 	@Override
 	public User updateUserInfo(User user) {
 		//validate the userInfo
@@ -140,8 +151,8 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 	
-	 /**
-	 * modify user password 
+	/**
+	 * 修改密码
 	 */
 	@Override
 	public User updateUserPsw(User user) {

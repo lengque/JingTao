@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.User;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,6 +29,16 @@ public class UserDao{
 	}
 
 	/**
+	 *userService
+	 */
+    public List<User> userList(){
+    	
+    	List<User> userPage = null;//baseDao.findPage(Criteria criteria, int pageNo, int pageSize);
+    	
+    	return userPage;
+    }
+	
+	/**
 	 *新增一个用户
 	 */
     public void saveUser(User user){
@@ -35,32 +46,12 @@ public class UserDao{
     	baseDao.saveObject(user);
     }
 	
+    
 	/**
 	 * 检索一个用户
 	 */
     public User checkUser(User user){
-		
-      /*StringBuffer checkSql = new StringBuffer("select userid,username,password,telphone from user where 1=1");
-    	String checkSql = "from User";
-    	
-    	
-	    //按照用户名来查找用户
-	    if(StringUtils.isNotBlank(user.getUsername())){
-	    	checkSql.append(" AND username = '"+user.getUsername() +"'");
-	    	
-	    	if(StringUtils.isNotBlank(user.getPassword())){
-	    		checkSql.append(" AND password = '"+user.getPassword() +"'");
-	    	}
-	    }
-	     if(StringUtils.isNotBlank(user.getUserId())){
-	    	checkSql.append(" AND userId = '"+user.getUserId() +"'");
-	    }
-		
-	    user = (User)baseDao.checkObject(checkSql.toString());
-	    */
 	    user = baseDao.checkObject(user);
-	    
-	    
 	    
 		return user;
     }

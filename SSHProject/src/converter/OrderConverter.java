@@ -3,7 +3,7 @@ package converter;
 import model.Order;
 import model.OrderDTO;
 
-public class OrderConvert {
+public class OrderConverter {
 	/**
 	 * 将前台OrderDto对象数据放到User中
 	 * 

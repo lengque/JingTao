@@ -9,14 +9,14 @@ import service.OrderService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import converter.OrderConvert;
+import converter.OrderConverter;
 import model.Order;
 import model.OrderDTO;
 
 public class OrderController extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> session;
-	private OrderConvert orderConvert;
+	private OrderConverter orderConverter;
 	private OrderService orderService;
 
 	/**
@@ -24,7 +24,7 @@ public class OrderController extends ActionSupport implements SessionAware {
 	 */
 	public String addNewOrder(OrderDTO orderDto) {
 		// adaptor OrderDTO to order
-		Order order = orderConvert.addOrderConverter(orderDto);
+		Order order = orderConverter.addOrderConverter(orderDto);
 
 		// 对order进行存储
 		orderService.addOrder(order);
@@ -35,7 +35,7 @@ public class OrderController extends ActionSupport implements SessionAware {
 	/**
 	 * 检索所有的order
 	 */
-	public String checkOrders() {
+	public String checkAllOrders() {
 
 		// 检索所有的order
 		List<Order> orders = orderService.getOrders();
@@ -117,8 +117,8 @@ public class OrderController extends ActionSupport implements SessionAware {
 	/**
 	 * 注入OrderConvert
 	 */
-	public void setOrderConvert(OrderConvert orderConvert) {
-		this.orderConvert = orderConvert;
+	public void setOrderConverter(OrderConverter orderConverter) {
+		this.orderConverter = orderConverter;
 	}
 
 	/**

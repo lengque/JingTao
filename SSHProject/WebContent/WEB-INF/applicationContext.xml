@@ -119,6 +119,12 @@
     <bean id="categoryController" class="controller.CategoryController">  
         <property name="categoryService" ref="categoryService"/>
     </bean>
+    
+    <!-- 管理单子 -->
+    <bean id="orderController" class="controller.OrderController">  
+        <property name="orderService" ref="orderService"/>
+        <property name="orderConverter" ref="orderConverter"/>
+    </bean>
   	
   	<!-- userDao -->
   	<bean id="baseDao" class="daoImpl.BaseDaoImpl">
@@ -130,6 +136,10 @@
     </bean>
     
     <bean id="categoryDao" class="daoImpl.CategoryDao">
+          <property name="baseDao" ref="baseDao"/>
+    </bean>
+    
+    <bean id="orderDao" class="daoImpl.OrderDao">
           <property name="baseDao" ref="baseDao"/>
     </bean>
     
@@ -161,13 +171,21 @@
         </property>
     </bean>
     
-     <!--category service -->
+    <!--category service -->
 	<bean id="categoryService" class="serviceImpl.CategoryServiceImpl">  
        <property name="categoryDao" ref="categoryDao"/>
     </bean>
     
-    <!-- more bean definitions go here -->
+    <!--order service -->
+    <bean id="orderService" class="serviceImpl.OrderServiceImpl">  
+       <property name="orderDao" ref="orderDao"/>
+    </bean>
+    
+    <!-- converts-->
+    <!-- userConvert -->
     <bean id="userConverter" class="converter.UserConverter"/>
+    <!-- orderConvert -->
+    <bean id="orderConverter" class="converter.OrderConverter"/>
     
     <!-- validators start -->
     <!-- username is exist in db -->

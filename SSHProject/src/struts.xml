@@ -58,27 +58,51 @@
             <result name="success">/success.jsp</result>
          </action>
         
-        <action name="addNewCategory" class="CategoryController" method="addNewCategory">
+        <action name="addNewCategory" class="categoryController" method="addNewCategory">
             <result name="success">/success.jsp</result>
          </action>
          
-         <action name="checkRootCategories" class="CategoryController" method="checkRootCategories">
+         <action name="checkRootCategories" class="categoryController" method="checkRootCategories">
             <result name="success">/success.jsp</result>
          </action>
          
-          <action name="checkChildCategories" class="CategoryController" method="checkChildCategories">
+          <action name="checkChildCategories" class="categoryController" method="checkChildCategories">
             <result name="success">/success.jsp</result>
          </action>
          
-         <action name="deleteCategory" class="CategoryController" method="deleteCategory">
+         <action name="deleteCategory" class="categoryController" method="deleteCategory">
             <result name="success">/success.jsp</result>
          </action>
          
-         <action name="checkCategory" class="CategoryController" method="checkCategory">
+         <action name="checkCategory" class="categoryController" method="checkCategory">
             <result name="success">/success.jsp</result>
          </action>
          
-         <action name="updateCategory" class="CategoryController" method="updateCategory">
+         <action name="updateCategory" class="categoryController" method="updateCategory">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="addNewOrder" class="orderController" method="addNewOrder">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="checkAllOrders" class="orderController" method="checkAllOrders">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="checkOrders" class="orderController" method="checkOrders">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="checkOrder" class="orderController" method="checkOrder">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="updateOrder" class="orderController" method="updateOrder">
+            <result name="success">/success.jsp</result>
+         </action>
+         
+         <action name="deleteOrder" class="orderController" method="deleteOrder">
             <result name="success">/success.jsp</result>
          </action>
     </package>

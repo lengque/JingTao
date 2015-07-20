@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService{
 		if(null != category) {
 			Category childCategory = new Category();
 			
-			childCategory.setPid(category.getId());
+			childCategory.setItemPid(category.getItemId());
 			
 			categoryList = categoryDao.getCategories(childCategory);
 		}

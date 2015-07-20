@@ -114,15 +114,24 @@
         <property name="userService" ref="userService"/>
         <property name="userConverter" ref="userConverter"/>
     </bean>
+    
+    <!-- 管理目录 -->  
+    <bean id="categoryController" class="controller.CategoryController">  
+        <property name="categoryService" ref="categoryService"/>
+    </bean>
   	
   	<!-- userDao -->
   	<bean id="baseDao" class="daoImpl.BaseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-     <bean id="userDao" class="daoImpl.UserDao">
+    <bean id="userDao" class="daoImpl.UserDao">
           <property name="baseDao" ref="baseDao"/>
-    </bean> 
+    </bean>
+    
+    <bean id="categoryDao" class="daoImpl.CategoryDao">
+          <property name="baseDao" ref="baseDao"/>
+    </bean>
     
     <!--user service -->
 	<bean id="userService" class="serviceImpl.UserServiceImpl">  
@@ -151,6 +160,12 @@
         	</list>
         </property>
     </bean>
+    
+     <!--category service -->
+	<bean id="categoryService" class="serviceImpl.CategoryServiceImpl">  
+       <property name="categoryDao" ref="categoryDao"/>
+    </bean>
+    
     <!-- more bean definitions go here -->
     <bean id="userConverter" class="converter.UserConverter"/>
     

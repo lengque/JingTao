@@ -53,8 +53,8 @@
 				<span><img src="${pageContext.request.contextPath }/Resources/images/t01.png" /></span></a>添加</li>
 				<li><span><img
 						src="${pageContext.request.contextPath }/Resources/images/t02.png" /></span>修改</li>
-				<li><span><img
-						src="${pageContext.request.contextPath }/Resources/images/t03.png" /></span>删除</li>
+				<li><a href="admin_removeUser.jsp">
+				<span><img src="${pageContext.request.contextPath }/Resources/images/t03.png" /></span></a>删除</li>
 				<li><span><img
 						src="${pageContext.request.contextPath }/Resources/images/t04.png" /></span>查看</li>
 			</ul>

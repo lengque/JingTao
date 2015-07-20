@@ -51,7 +51,7 @@
    	
    		<property name="email" type="java.lang.String">
      		<column name="EMAIL" length="57">
-       			<comment>真实姓名</comment>
+       			<comment>邮箱</comment>
      		</column>
    		</property>
    		

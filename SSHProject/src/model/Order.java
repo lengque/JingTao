@@ -4,23 +4,23 @@ import java.sql.Timestamp;
 
 //1.发布人2.类别（品牌）3.新旧4.物品状况5.价格6.照片7.标题8.详细描述
 public class Order {
-	private String uuid;
+	private String orderId;
 	private String userId;
 	private String title;
-	private String typeId;
-	private int degree;
-	private double price;
+	private String itemId;
+	private Integer degree;
+	private Double price;
 	private String image;
 	private String detail;
 	private Timestamp createTime;
     private Timestamp updateTime;
 	
-	//uuid
-	public String getUuid() {
-		return uuid;
+	//orderId
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	
 	//useriId
@@ -40,26 +40,26 @@ public class Order {
 	}
 	
 	//typeId
-	public String getTypeId() {
-		return typeId;
+	public String getItemId() {
+		return itemId;
 	}
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	
 	//degree
-	public int getDegree() {
+	public Integer getDegree() {
 		return degree;
 	}
-	public void setDegree(int degree) {
+	public void setDegree(Integer degree) {
 		this.degree = degree;
 	}
 	
 	//price
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	

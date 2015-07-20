@@ -37,7 +37,7 @@ public class CategoryController extends ActionSupport implements SessionAware {
 	/**
 	 * 显示目前所有的根节点
 	 */
-	public String CheckRootCategories() {
+	public String checkRootCategories() {
 
 		try {
 			List<Category> rootCategory = categoryService.getTopCategories();
@@ -57,7 +57,7 @@ public class CategoryController extends ActionSupport implements SessionAware {
 	/**
 	 * 查找某个根节点的所有子节点
 	 */
-	public String CheckChildCategories(Category category) {
+	public String checkChildCategories(Category category) {
 		try {
 			List<Category> childCategories = categoryService
 					.getChildren(category);

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="Category" table="Category">
+    	<!-- <generator class="native"></generator>说明将根据本地数据库的设置来创建userId -->
+        <id name="itemId" type="java.lang.String">
+      		<column name="ITEMID" not-null="true" length="32">
+        		<comment>主键</comment>
+      		</column>
+      		<generator class="uuid"/>
+    	</id>
+        
+        <property name="itemPid" type="java.lang.String">
+      		<column name="ITEMPID" length="32">
+        		<comment>父键</comment>
+      		</column>
+    	</property>
+        
+        <property name="itemName" type="java.lang.String">
+     		<column name="ITEMNAME" length="32">
+       			<comment>名称</comment>
+     		</column>
+   		</property>
+	
+		<property name="grade" type="java.lang.Integer">
+     		<column name="GRADE" length="3">
+       			<comment>等级</comment>
+     		</column>
+   		</property>
+   		
+   		<property name="isLeaf" type="java.lang.Integer">
+     		<column name="ISLEAF" length="3">
+       			<comment>是否是叶子节点</comment>
+     		</column>
+   		</property>
+	
+   		<property name="descr" type="java.lang.String">
+     		<column name="DESCR" length="18">
+       			<comment>描述</comment>
+     		</column>
+   		</property>
+    </class>
+</hibernate-mapping>

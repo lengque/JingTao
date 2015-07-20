@@ -237,7 +237,6 @@ public class UserConverter {
 		User user = new User();
 
 		user.setUserId(userDTO.getUserId());
-		user.setPassword(userDTO.getPassword());
 
 		return user;
 	}

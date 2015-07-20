@@ -1,43 +1,43 @@
 package model;
 
 public class Category {
-	private String id;
-	private String pid;
-	private String name;
-	private int grade;
-	private int isLeaf;
+	private String itemId;
+	private String itemPid;
+	private String itemName;
+	private Integer grade;
+	private Integer isLeaf;
 	private String descr;
 	
 	//ID
-	public String getId() {
-		return id;
+	public String getItemId() {
+		return itemId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	
 	//PID
-	public String getPid() {
-		return pid;
+	public String getItemPid() {
+		return itemPid;
 	}
-	public void setPid(String pid) {
-		this.pid = pid;
+	public void setItemPid(String itemPid) {
+		this.itemPid = itemPid;
 	}
 	
 	//NAME
-	public String getName() {
-		return name;
+	public String getItemName() {
+		return itemName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	
 	//Grade
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
 	
@@ -50,10 +50,10 @@ public class Category {
 	}
 	
 	//isLeaf
-	public int getIsLeaf() {
+	public Integer getIsLeaf() {
 		return isLeaf;
 	}
-	public void setIsLeaf(int isLeaf) {
+	public void setIsLeaf(Integer isLeaf) {
 		this.isLeaf = isLeaf;
 	}
 }

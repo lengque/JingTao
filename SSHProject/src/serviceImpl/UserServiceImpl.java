@@ -20,10 +20,10 @@ import daoImpl.UserDao;
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	
-	private List<BaseValidator> saveValidators;
-	private List<BaseValidator> modifyUserInfoValidators;
-	private List<BaseValidator> modifyUserPswValidators;
-	private List<BaseValidator>	deleteUserValidators;
+	private List<BaseValidator<User>> saveValidators;
+	private List<BaseValidator<User>> modifyUserInfoValidators;
+	private List<BaseValidator<User>> modifyUserPswValidators;
+	private List<BaseValidator<User>> deleteUserValidators;
 	
 	/**
 	 * init the userDao
@@ -35,28 +35,28 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * init validators for save method
 	 */
-	public void setSaveValidators(List<BaseValidator> saveValidators) {
+	public void setSaveValidators(List<BaseValidator<User>> saveValidators) {
 		this.saveValidators = saveValidators;
 	}
 	
 	/**
 	 * init validators for save method
 	 */
-	public void setModifyUserInfoValidators(List<BaseValidator> modifyUserInfoValidators) {
+	public void setModifyUserInfoValidators(List<BaseValidator<User>> modifyUserInfoValidators) {
 		this.modifyUserInfoValidators = modifyUserInfoValidators;
 	}
 	
 	/**
 	 * init validators for save method
 	 */
-	public void setDeleteUserValidators(List<BaseValidator> modifyUserPswValidators) {
+	public void setDeleteUserValidators(List<BaseValidator<User>> modifyUserPswValidators) {
 		this.modifyUserPswValidators = modifyUserPswValidators;
 	}
 	
 	/**
 	 * init validators for delete method
 	 */
-	public void setModifyUserPswValidators(List<BaseValidator> deleteUserValidators) {
+	public void setModifyUserPswValidators(List<BaseValidator<User>> deleteUserValidators) {
 		this.deleteUserValidators = deleteUserValidators;
 	}
 	
@@ -83,15 +83,18 @@ public class UserServiceImpl implements UserService {
 	 * 保存一个用户
 	 */
     @Override  
-    public User saveUser(User u){
-    	//1.validate the user data
-		for(BaseValidator validator : saveValidators ){
-			validator.validate(u);
+    public User saveUser(User user){
+    	//1.首先从数据库中查询这个用户
+    	User dbUser = userDao.checkUserByName(user);
+    	
+    	//2.validate the user data
+		for(BaseValidator<User> validator : saveValidators ){
+			validator.validate(user,dbUser);
 		}
 		//2.save object
-    	userDao.saveUser(u);
+    	user = userDao.saveUser(user);
     	
-    	return u;
+    	return user;
     }
     
     /**
@@ -99,14 +102,17 @@ public class UserServiceImpl implements UserService {
 	 */
     @Override
 	public void deleteUser(User user) {
-		//check the user state 
-    	//1.validate the user data
-    	//check the user is exist
-		for(BaseValidator validator : deleteUserValidators){
-			validator.validate(user);
+    	//1.首先从数据库中查询这个用户
+    	User dbUser = userDao.checkUserByName(user);
+    	
+    	//2.validate the user data
+		for(BaseValidator<User> validator : deleteUserValidators){
+			validator.validate(user,dbUser);
 		}
-		//change the user state 
+		
+		//change the user state
 		user.setState(UserUtil.disable);
+		
 		//save the state
 		userDao.updateUser(user);
 	}
@@ -140,9 +146,12 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User updateUserInfo(User user) {
+		//1.首先从数据库中查询这个用户
+    	User dbUser = userDao.checkUserByName(user);
+    	
 		//validate the userInfo
-		for(BaseValidator validator : modifyUserInfoValidators ){
-			validator.validate(user);
+		for(BaseValidator<User> validator : modifyUserInfoValidators ){
+			validator.validate(user,dbUser);
 		}
 		
 		//update the user to db
@@ -156,9 +165,12 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User updateUserPsw(User user) {
+		//1.首先从数据库中查询这个用户
+    	User dbUser = userDao.checkUserByName(user);
+    	
 		//validate the user
-		for(BaseValidator validator : modifyUserPswValidators ){
-			validator.validate(user);
+		for(BaseValidator<User> validator : modifyUserPswValidators ){
+			validator.validate(user,dbUser);
 		}
 		
 		//save the new password

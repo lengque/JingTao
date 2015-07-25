@@ -41,9 +41,10 @@ public class UserDao{
 	/**
 	 *新增一个用户
 	 */
-    public void saveUser(User user){
+    public User saveUser(User user){
+    	user = baseDao.saveObject(user);
     	
-    	baseDao.saveObject(user);
+    	return user;
     }
 	
     

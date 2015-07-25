@@ -1,10 +1,11 @@
 package validator;
 
+import model.Order;
 import model.User;
 
-public interface BaseValidator {
-	/**
+public interface BaseValidator<T> {
+   /**
 	 * <p>validate</p>
-	 */
-   public void validate(User user);
+	*/
+   public void validate(T t,T dbT);
 }

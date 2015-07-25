@@ -7,23 +7,17 @@ import util.ErrorList;
 import util.UserUtil;
 import validator.BaseValidator;
 
-public class UserNameExistValidator implements BaseValidator{
-	UserDao userDao;
+public class UserNameExistValidator implements BaseValidator<User>{
 	/**
 	 * check the user name
-	 * 
 	 */
 	@Override
-	public void validate(User user) {
-		// if not found the u will be null
-		user = userDao.checkUserByName(user);
+	public void validate(User user,User dbUser) {
 		//如果用户找到了 并且 用户状态不是停用状态 那么说明这个用户存在
-		if(null != user && user.getState() != UserUtil.disable){
+		if(null != dbUser && dbUser.getState() != UserUtil.disable){
 			throw new BaseException(ErrorList.UserName_Is_Exist);
 		}
 	}
 
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+	
 }

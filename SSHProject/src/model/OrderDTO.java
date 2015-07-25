@@ -1,21 +1,26 @@
 package model;
+
+import java.sql.Timestamp;
+
 //1.发布人2.类别（品牌）3.新旧4.物品状况5.价格6.照片7.标题8.详细描述
 public class OrderDTO {
-	private String uuid;
+	private String orderId;
 	private String userId;
 	private String title;
-	private String typeId;
+	private String itemId;
 	private int degree;
 	private double price;
 	private String image;
 	private String detail;
-	
+	private Timestamp createTime;
+    private Timestamp updateTime;
+    
 	//uuid
-	public String getUuid() {
-		return uuid;
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	
 	//useriId
@@ -35,11 +40,11 @@ public class OrderDTO {
 	}
 	
 	//typeId
-	public String getTypeId() {
-		return typeId;
+	public String getItemId() {
+		return itemId;
 	}
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	
 	//degree
@@ -72,5 +77,20 @@ public class OrderDTO {
 	}
 	public void setDetail(String detail) {
 		this.detail = detail;
+	}
+	//create time
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+	
+	//update time
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 }

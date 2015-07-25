@@ -39,6 +39,7 @@ public class OrderDao {
 	 * 删除一个order
 	 */
 	public void deleteOrder(Order order) {
+		
 		baseDao.deleteObject(order);
 	}
 
@@ -53,6 +54,16 @@ public class OrderDao {
 	 * 查找order
 	 */
 	public Order findOrder(Order order) {
+		return baseDao.checkObject(order);
+	}
+	
+	/**
+	 * 查找order
+	 */
+	public Order findOrderById(String orderId) {
+		Order order = new Order();
+		order.setOrderId(orderId);
+		
 		return baseDao.checkObject(order);
 	}
 

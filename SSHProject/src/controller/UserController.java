@@ -2,9 +2,7 @@ package controller;
 
 import java.util.Map;
 
-import javax.annotation.Resources;
-
-import org.apache.catalina.Session;
+import org.apache.commons.logging.*;
 import org.apache.struts2.interceptor.SessionAware;
 
 import service.UserService;
@@ -13,7 +11,6 @@ import model.User;
 import model.UserDTO;
 import Exception.BaseException;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import converter.UserConverter;
@@ -24,13 +21,14 @@ public class UserController extends ActionSupport implements SessionAware {
 	private UserConverter userConverter;
 	private UserDTO userDTO;
 	protected Map<String, Object> session;
-
+	private Log logger = LogFactory.getLog(this.getClass().getName());
+	
 	/**
 	 * user list
 	 */
 	public String userList() {
 		try {
-
+			logger.debug("start check userList");
 			userService.userList();
 
 		} catch (BaseException e) {
@@ -48,15 +46,18 @@ public class UserController extends ActionSupport implements SessionAware {
 	 */
 	public String register() {
 		try {
+			logger.debug("start register user");
+			
 			// 1.convert the userDTO to user
 			User user = userConverter.registerConverter(userDTO);
 
 			// 2.involk userService to save the user
 			userService.saveUser(user);
-
+			
+			logger.debug("register user end");
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
-			System.out.println(errorMessage);
+			logger.error("", e);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,12 +67,13 @@ public class UserController extends ActionSupport implements SessionAware {
 
 	public String addNewUser() {
 		try {
+			logger.debug("start add new user");
 			// 1.convert the userDTO to user
 			User user = userConverter.registerConverter(userDTO);
 
 			// 2.involk userService to save the user
 			userService.saveUser(user);
-
+			logger.debug("add new user success");
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -88,6 +90,9 @@ public class UserController extends ActionSupport implements SessionAware {
 	public String login() {
 
 		try {
+			if(logger.isDebugEnabled()){
+				logger.debug("start login~~~");
+			}
 			// 1.primary check and convert
 			User user = userConverter.loginConverter(userDTO);
 
@@ -97,11 +102,14 @@ public class UserController extends ActionSupport implements SessionAware {
 			// 3.convert the user to userDTO
 			userDTO = userConverter.reverseConverter(u);
 
-			// 4.set the log in state to session and return the userDTO
+			// 4.set the logger in state to session and return the userDTO
 			session.put("userId", u.getUserId());
 			session.put("userName", u.getUserName());
 			session.put("password", u.getPassword());
-
+			
+			if(logger.isDebugEnabled()){
+				logger.info("login success");
+			}
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -152,7 +160,7 @@ public class UserController extends ActionSupport implements SessionAware {
 			// 2.save the new password to db
 			user = this.userService.updateUserPsw(user);
 
-			// 3.log out and go to log on page
+			// 3.logger out and go to logger on page
 			session.clear();
 
 		} catch (Exception e) {

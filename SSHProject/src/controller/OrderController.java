@@ -24,7 +24,7 @@ public class OrderController extends ActionSupport implements SessionAware {
 	 */
 	public String addNewOrder(OrderDTO orderDto) {
 		// adaptor OrderDTO to order
-		Order order = orderConverter.addOrderConverter(orderDto);
+		Order order = orderConverter.addOrderConverter(orderDto,session);
 
 		// 对order进行存储
 		orderService.addOrder(order);
@@ -40,7 +40,10 @@ public class OrderController extends ActionSupport implements SessionAware {
 		// 检索所有的order
 		List<Order> orders = orderService.getOrders();
 		
+		List<OrderDTO> orderDtoList= orderConverter.OrderConverterOrderDto(orders);
+		
 		// 对orders进行反转换并存储到session中
+		session.put("result", orderDtoList);
 		
 		return SUCCESS;
 	}
@@ -57,7 +60,9 @@ public class OrderController extends ActionSupport implements SessionAware {
 		List<Order> orders = orderService.getOrders(order);
 
 		// 对orders进行反转换并存储到session中
-
+		List<OrderDTO> orderDtoList= orderConverter.OrderConverterOrderDto(orders);
+		session.put("result", orderDtoList);
+		
 		return SUCCESS;
 	}
 
@@ -72,7 +77,10 @@ public class OrderController extends ActionSupport implements SessionAware {
 		order = orderService.checkOrder(order);
 
 		// 对order进行反转换并存储到session中
-
+		orderDto = orderConverter.adaptor(order);
+		
+		session.put("result",order);
+		
 		return SUCCESS;
 	}
 
@@ -81,24 +89,23 @@ public class OrderController extends ActionSupport implements SessionAware {
 	 */
 	public String updateOrder(OrderDTO orderDto) {
 		// adaptor OrderDTO to order
-		Order order = new Order();// = orderConvert.addOrderConverter(orderDto);
+		Order order = orderConverter.updateOrderConverter(orderDto,session);
 
 		// 对order进行更新
 		order = orderService.updateOrder(order);
 
 		// 对order进行反转换并存储到session中
-
+		session.put("result",order);
+		
 		return SUCCESS;
 	}
+	
 	/**
 	 * 删除某个order
 	 */
-	/**
-	 *更新某个Order
-	 */
 	public String deleteOrder(OrderDTO orderDto) {
 		// adaptor OrderDTO to order
-		Order order = new Order();// = orderConvert.addOrderConverter(orderDto);
+		Order order = orderConverter.deleteOrderConverter(orderDto,session);
 
 		// 删除 order
 		orderService.deleteOrder(order);

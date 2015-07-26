@@ -179,6 +179,20 @@
     <!--order service -->
     <bean id="orderService" class="serviceImpl.OrderServiceImpl">  
        <property name="orderDao" ref="orderDao"/>
+       
+       <property name="updateOrderValidators">
+        	<list>
+        		<ref bean="orderIsExistValidator"/>
+                <ref bean="orderOwnerIsSameValidator"/>
+        	</list>
+       </property>
+       
+       <property name="deleteOrderValidators">
+        	<list>
+        		<ref bean="orderIsExistValidator"/>
+                <ref bean="orderOwnerIsSameValidator"/>
+        	</list>
+       </property>
     </bean>
     
     <!-- converts-->
@@ -189,9 +203,12 @@
     
     <!-- validators start -->
     <!-- username is exist in db -->
-    <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator">
-    	<property name="userDao" ref="userDao"/>
-    </bean>
+    <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator"/>
+    
+    <!-- user is not same -->
+    <bean id="orderOwnerIsSameValidator" class="validatorImpl.OrderOwnerIsSameValidator"/>
+    
+     <bean id="orderIsExistValidator" class="validatorImpl.OrderIsExistValidator"/>
     <!-- validators end -->
     
     <!--interceptors start-->

@@ -28,7 +28,7 @@
 
 
 <div class="logintop">    
-    <span>欢迎登录四年后台管理系统</span>    
+    <span>欢迎登录四年后台管理系统</span>
     <ul>
     <li><a href="#">回首页</a></li>
     <li><a href="#">帮助</a></li>
@@ -42,7 +42,9 @@
 				    <ul>
 					    <li><input name="userDTO.userName" id="userName" type="text" class="loginuser"/></li>
 					    <li><input name="userDTO.password" id="password" type="password" class="loginpwd" ></li>
-					    <li><input type="submit" class="loginbtn" value="登录"/>
+					    
+					    <li>
+					    	<input type="submit" class="loginbtn" value="登录"/>
 					        <label><input name="" type="checkbox" value="" checked="checked" />记住密码</label>
 					        <label><a href="#">忘记密码？</a></label>
 					    </li>

@@ -2,7 +2,11 @@ package Interceptor;
 
 import java.util.Map;
 
+import model.User;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
@@ -11,28 +15,36 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 public class LoginInterceptor extends AbstractInterceptor {
 
+	private static final long serialVersionUID = 1L;
+	private Log logger = LogFactory.getLog(this.getClass().getName());
+	
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		System.out.print("开始验证");
+		if(logger.isDebugEnabled()){
+			logger.debug("开始进行登录验证~~~");
+		}
+		
 		// 取得请求相关的ActionContext实例
 		ActionContext ctx = invocation.getInvocationContext();
 		// 获取session
 		Map session = ctx.getSession();
-		// 获取用户名
-		String userName = session.get("userName").toString();
-		System.out.println(userName);
-		// 获取密码
-		String password = session.get("password").toString();
-		System.out.println(password);
-		if (null!=userName && null!=password && StringUtils.isNotBlank(userName)
-				&& StringUtils.isNotBlank(password)) {
-			System.out.println("登陆验证通过");
+		// 获取用户
+		User user = (User)session.get("userLogin");
+		
+		if(null != user){
+			if(logger.isDebugEnabled()){
+				logger.debug("登录验证成功");
+			}
+			
 			return invocation.invoke();
 		}
-
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("登录验证失败");
+		}
+		
 		ctx.put("tip", "你还没有登录");
-		System.out.print("你还没有登录");
+		
 		return Action.LOGIN;
-
 	}
 }

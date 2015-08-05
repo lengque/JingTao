@@ -7,7 +7,7 @@
 <title>添加一个新的用户</title>
 </head>
 <body>
-	<form name="addNewUser" method="post" action="${pageContext.request.contextPath }/user/addNewUser">
+	<form name="addNewUser" method="post" action="${pageContext.request.contextPath}/user/addNewUser">
 		<table>
 		<tr>
 			<td>

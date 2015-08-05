@@ -55,6 +55,12 @@
      		</column>
    		</property>
    		
+   		<property name="state" type="java.lang.Integer">
+     		<column name="STATE" length="2">
+       			<comment>订单状态</comment>
+     		</column>
+   		</property>
+   		
    		<property name="createTime" type="java.sql.Timestamp">
      		<column name="CREATETIME">
        			<comment>创建时间</comment>

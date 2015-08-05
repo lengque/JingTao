@@ -37,7 +37,7 @@ public class UserController extends ActionSupport implements SessionAware {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		return SUCCESS;
 	}
 
@@ -91,28 +91,30 @@ public class UserController extends ActionSupport implements SessionAware {
 
 		try {
 			if(logger.isDebugEnabled()){
-				logger.debug("start login~~~");
+				logger.debug("开始登录~~~");
 			}
 			// 1.primary check and convert
 			User user = userConverter.loginConverter(userDTO);
 
 			// 2.get the user info from database
-			User u = userService.login(user);
+			User dbUser = userService.login(user);
 
 			// 3.convert the user to userDTO
-			userDTO = userConverter.reverseConverter(u);
+			userDTO = userConverter.reverseConverter(dbUser);
 
 			// 4.set the logger in state to session and return the userDTO
-			session.put("userId", u.getUserId());
-			session.put("userName", u.getUserName());
-			session.put("password", u.getPassword());
-			
+			session.put("userLogin", user);
+			session.put("userDTO", userDTO);
+
 			if(logger.isDebugEnabled()){
-				logger.info("login success");
+				logger.info("登录成功");
 			}
+			
 		} catch (BaseException e) {
-			String errorMessage = e.getMessage();
-			System.out.println(errorMessage);
+			if(logger.isErrorEnabled()){
+				logger.error("登录失败");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -34,7 +34,7 @@
 		</action>
 
 		<!-- 退出登陆 -->
-		<action name="deleteUser" class="userController" method="deleteUser">
+		<action name="logOut" class="userController" method="logOut">
 			<result name="success">/success.jsp</result>
 		</action>
 	</package>

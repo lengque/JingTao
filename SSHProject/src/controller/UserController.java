@@ -93,6 +93,7 @@ public class UserController extends ActionSupport implements SessionAware {
 			if(logger.isDebugEnabled()){
 				logger.debug("开始登录~~~");
 			}
+			
 			// 1.primary check and convert
 			User user = userConverter.loginConverter(userDTO);
 
@@ -103,23 +104,51 @@ public class UserController extends ActionSupport implements SessionAware {
 			userDTO = userConverter.reverseConverter(dbUser);
 
 			// 4.set the logger in state to session and return the userDTO
-			session.put("userLogin", user);
+			session.put(UserUtil.User_Login, user);
+			session.put(UserUtil.User_Is_Login,true);
+			
 			session.put("userDTO", userDTO);
 
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");
 			}
-			
 		} catch (BaseException e) {
 			if(logger.isErrorEnabled()){
 				logger.error("登录失败");
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return SUCCESS;
+	}
+	
+	/**
+	 * login
+	 */
+	public String logOut() {
+		try {
+			if(logger.isDebugEnabled()){
+				logger.debug("开始登出~~~");
+			}
+			
+			session.put(UserUtil.User_Login, null);
+			session.put(UserUtil.User_Is_Login,false);
+			
+			session.clear();
+			
+			if(logger.isDebugEnabled()){
+				logger.info("登出成功");
+			}
+		} catch (BaseException e) {
+			if(logger.isErrorEnabled()){
+				logger.error("登出失败");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return LOGIN;
 	}
 
 	/**
@@ -127,14 +156,9 @@ public class UserController extends ActionSupport implements SessionAware {
 	 * 
 	 */
 	public String modifyInfo() {
-		this.userDTO.setGender(UserUtil.female);
-		this.userDTO.setAddress("new york");
-		this.userDTO.setIdCardNo("123123123123123");
-		this.userDTO.setUserId("297e5af94b7941b6014b7942b6ca0000");
-
 		try {
 			// 1.convert the userDTO to user
-			User user = userConverter.modifyConverter(userDTO);
+			User user = userConverter.modifyConverter(userDTO,session);
 
 			// 2.save the new info to db
 			user = this.userService.updateUserInfo(user);

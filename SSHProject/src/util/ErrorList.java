@@ -3,6 +3,9 @@ package util;
 public class ErrorList {
 	
 	public static String Sys999 = "系统级错误";
+	
+	//user
+	public static String User_Is_not_Login = "用户未登录";
 	//Username
 	public static String UserName_Is_Blank = "爷，赏个名字吧！";
 	public static String UserName_Too_Long = "名字这么长，记得住吗？";
@@ -10,6 +13,7 @@ public class ErrorList {
 	public static String User_Not_Exist = "亲，自己的名字都忘了吗？";
 	//password
 	public static String Password_Is_Blank = "不设密码真的好吗？";
+	public static String Password_Too_Short = "密码太短";
 	public static String Password_Too_Long = "密码这么长，伦家记不住了！";
 	public static String Password_Diffirent_From_ConfirmPsw = "两次密码要一样哦";
 	public static String Password_not_Correct = "密码好像不正确呢！";
@@ -39,6 +43,9 @@ public class ErrorList {
 	//telphone
 	public static String Email_Format_Error = "邮箱格式错误";
 	
+	//address
+	public static String Address_Too_Long = "邮箱格式错误";
+	
 	//title
 	public static String Title_Is_Blank = "标题不能为空";
 	public static String Title_Is_Too_long = "标题不能超过15个字";
@@ -52,7 +59,7 @@ public class ErrorList {
 	
 	//detail
 	public static String Detail_Is_Blank = "商品详细描述为空";
-	public static String Detail_Is_Too_Long = "商品详细描述太长";
+	public static String Detail_Is_Too_Long = "商品详细描述超长";
 	
 	//item
 	public static String Item_Is_Blank = "商品类别为空";

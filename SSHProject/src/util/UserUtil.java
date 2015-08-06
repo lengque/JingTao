@@ -11,9 +11,15 @@ public class UserUtil {
 	public static int disable = 3;
 	
 	/**
-	 * �û��Ա� 1.���� 2.Ů��
+	 * 性别 1.男 2.女
 	 */
 	public static String UserGender = "user_Gender";
 	public static int male = 1;
 	public static int female = 2;
+	
+	/**
+	 * 用户登陆键值
+	 */
+	public static String User_Login = "userLogin";
+	public static String User_Is_Login = "userIsLogin";
 }

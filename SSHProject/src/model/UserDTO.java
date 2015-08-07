@@ -16,6 +16,7 @@ public class UserDTO {
     private String email;
     private String address;
     //后台维护信息
+    private Integer role;
     private Integer grade;
     private Integer state;
     private Timestamp createTime;
@@ -110,5 +111,11 @@ public class UserDTO {
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	public Integer getRole() {
+		return role;
+	}
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 }

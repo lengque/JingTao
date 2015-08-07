@@ -26,13 +26,12 @@ public class UserConverter {
 			String userName = userDTO.getUserName();
 			String password = userDTO.getPassword();
 			String conPsw = userDTO.getConfirmPsw();
-			Integer gender = userDTO.getGender();
 
 			if (StringUtils.isBlank(userName)) {
 				// throw exception
 				throw new BaseException(ErrorList.UserName_Is_Blank);
 			}
-			if (userName.length() > 12) {
+			if (userName.length() > 32) {
 				// throw exception
 				throw new BaseException(ErrorList.UserName_Too_Long);
 			}
@@ -42,7 +41,11 @@ public class UserConverter {
 				// throw exception
 				throw new BaseException(ErrorList.Password_Is_Blank);
 			}
-			if (password.length() > 30) {
+			if (password.length() < 6) {
+				// throw exception
+				throw new BaseException(ErrorList.Password_Too_Short);
+			}
+			if (password.length() > 32) {
 				// throw exception
 				throw new BaseException(ErrorList.Password_Too_Long);
 			}
@@ -51,6 +54,7 @@ public class UserConverter {
 				throw new BaseException(
 						ErrorList.Password_Diffirent_From_ConfirmPsw);
 			}
+			
 			user.setPassword(password);
 
 			// 设置创建时间和信息更新时间
@@ -98,8 +102,7 @@ public class UserConverter {
 	}
 
 	/**
-	 * 
-	 * 
+	 *User
 	 */
 	public UserDTO reverseConverter(User user) {
 		UserDTO userDto = new UserDTO();
@@ -127,40 +130,37 @@ public class UserConverter {
 		User user = new User();
 
 		if (null != userDTO) {
-			String userId = session.get("userId").toString();
-			String userName = session.get("userName").toString();
-			String password = session.get("password").toString();
-
-			if (!StringUtils.equals(userId, userDTO.getUserId())
-					|| !StringUtils.equals(userName, userDTO.getUserName())
-					|| !StringUtils.equals(password, userDTO.getPassword())) {
-				throw new BaseException(ErrorList.User_Not_LogIn);
-			}
-			user.setUserId(userId);
-			user.setUserName(userName);
+			//Id
+			User LoginUser = (User)session.get(UserUtil.User_Login);
 			
-			// get the original password
-			String originalPsw = userDTO.getPrimitivePsw();
-
-			// check the original password
-			if (StringUtils.isBlank(originalPsw)
-					|| !StringUtils.equals(originalPsw, password)) {
-				// throw exception
-				throw new BaseException(ErrorList.Original_Password_Not_Correct);
+			if(null != LoginUser ){
+				user.setUserId(LoginUser.getUserId());
+				user.setUserName(LoginUser.getUserName());
+				
+				//得到用户的原始密码
+				String originalPsw = userDTO.getPrimitivePsw();
+				// check the original password
+				if (StringUtils.isBlank(originalPsw)
+						|| !StringUtils.equals(originalPsw, LoginUser.getPassword())) {
+					// throw exception
+					throw new BaseException(ErrorList.Original_Password_Not_Correct);
+				}
+				// get the new password
+				String newPsw = userDTO.getPassword();
+				String confPsw = userDTO.getConfirmPsw();
+				
+				// compare the new password with confirm password
+				if (StringUtils.isBlank(newPsw) || StringUtils.isBlank(confPsw)
+						|| !StringUtils.equals(newPsw, confPsw)) {
+					// throw exception
+					throw new BaseException(
+							ErrorList.Password_Diffirent_From_ConfirmPsw);
+				}
+				user.setPassword(newPsw);
+				
+			}else{
+				throw new BaseException(ErrorList.User_Is_not_Login);
 			}
-
-			// get the new password
-			String newPsw = userDTO.getPassword();
-			String confPsw = userDTO.getConfirmPsw();
-			// compare the new password with confirm password
-			if (StringUtils.isBlank(newPsw) || StringUtils.isBlank(confPsw)
-					|| !StringUtils.equals(newPsw, confPsw)) {
-				// throw exception
-				throw new BaseException(
-						ErrorList.Password_Diffirent_From_ConfirmPsw);
-			}
-
-			user.setPassword(newPsw);
 		}
 
 		return user;
@@ -169,14 +169,14 @@ public class UserConverter {
 	/**
 	 * 更改用户信息 对于用户信息的更改以UUID为准
 	 */
-	public User modifyConverter(UserDTO userDTO) {
+	public User modifyConverter(UserDTO userDTO,Map<String,Object> session) {
 		User user = new User();
 
 		if (null != userDTO) {
-			// Id 和 username不允许更改
-			user.setUserId(userDTO.getUserId());
-			user.setUserName(userDTO.getUserName());
-
+			//Id
+			User LoginUser = (User)session.get(UserUtil.User_Login);
+			user.setUserId(LoginUser.getUserId());
+			
 			// set IdCardNo
 			String IdCardNo = userDTO.getIdCardNo();
 			if (StringUtils.isNotBlank(IdCardNo)) {
@@ -186,6 +186,7 @@ public class UserConverter {
 				}
 				user.setIdCardNo(IdCardNo);
 			}
+			
 			// set real name
 			String realName = userDTO.getRealName();
 			if (StringUtils.isNotBlank(realName)) {
@@ -196,9 +197,10 @@ public class UserConverter {
 			}
 
 			// set gender
+			//如果性别没有填写 默认为女性
 			Integer gender = userDTO.getGender();
 			if (!gender.equals(UserUtil.male) && gender.equals(UserUtil.female)) {
-				throw new BaseException(ErrorList.Gender_Error);
+				user.setGender(UserUtil.female);
 			}
 			user.setGender(gender);
 
@@ -208,6 +210,7 @@ public class UserConverter {
 				if (!telphone.matches(CommonUtil.Telphone_Format)) {
 					throw new BaseException(ErrorList.Telphone_Format_Error);
 				}
+				
 				user.setTelphone(telphone);
 			}
 
@@ -217,15 +220,20 @@ public class UserConverter {
 				if (email.matches(CommonUtil.Email_Format)) {
 					throw new BaseException(ErrorList.Email_Format_Error);
 				}
+				
 				user.setEmail(email);
 			}
 
 			// set address
 			String address = userDTO.getAddress();
 			if (StringUtils.isNotBlank(address)) {
+				if(address.length()>128){
+					throw new BaseException(ErrorList.Address_Too_Long);
+				}
+				
 				user.setAddress(address);
 			}
-
+			
 			// set update time
 			user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		}

@@ -12,6 +12,7 @@ public class Order {
 	private Double price;
 	private String image;
 	private String detail;
+	private Integer state;
 	private Timestamp createTime;
     private Timestamp updateTime;
 	
@@ -93,6 +94,14 @@ public class Order {
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	//state
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 }

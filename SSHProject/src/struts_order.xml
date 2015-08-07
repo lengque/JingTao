@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- Order module start -->
+	<package name="Order" namespace="/order" extends="basePackage">
+		<action name="addNewOrder" class="orderController" method="addNewOrder">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkAllOrders" class="orderController" method="checkAllOrders">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkOrders" class="orderController" method="checkOrders">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkOrder" class="orderController" method="checkOrder">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="updateOrder" class="orderController" method="updateOrder">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="deleteOrder" class="orderController" method="deleteOrder">
+			<result name="success">/success.jsp</result>
+		</action>
+	</package>
+	<!-- Order module end -->
+</struts>

@@ -2,109 +2,37 @@
 <!DOCTYPE struts PUBLIC
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
-  
+
 <struts>
-    <!-- struts.multipart.saveDir用于指定存放临时文件的文件夹 -->
-    <constant name="struts.multipart.saveDir" value="/tmp"/>
-    <!--UserController Start-->
-    
-    <package name="Login" namespace="/" extends="struts-default">
-       <!-- 注册 -->
-       <action name="register" class="userController" method="register">
-           <result name="success">/success.jsp</result>
-       </action>
-       
-        <!-- 登陆 -->
-    	<action name="login" class="userController" method="login">
-           <result name="success">/Resources/pages/main.jsp</result>
-       	</action>
-    </package>
-    
-    <!-- 每一个package对应一个业务逻辑 -->
-    <package name="user" namespace="/user" extends="struts-default">
-	    <interceptors>
-	    	<!-- 登录验证 -->
-			<interceptor name="loginVerify" class="loginInterceptor"/>
+	<!-- struts.multipart.saveDir用于指定存放临时文件的文件夹 -->
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+	<!--UserController Start -->
+
+	<!--这个公共基础包用来放所有模块都需要的一些配置 -->
+	<package name="basePackage" extends="struts-default">
+		<!-- interceptors 应该定义在包的最前端 -->
+		<interceptors>
+			<!-- 登录验证 -->
+			<interceptor name="loginVerify" class="loginInterceptor" />
 			
 			<interceptor-stack name="verify">
-				<interceptor-ref name="defaultStack"/>
-				<interceptor-ref name="loginVerify"/>
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="loginVerify" />
 			</interceptor-stack>
 		</interceptors>
 		
 		<default-interceptor-ref name="verify"/>
-		<!-- 全局变量 -->
-        <global-results>  
-            <result name="login">/login.jsp</result>  
-        </global-results>
-       
-       <!-- 更新用户信息 -->
-        <action name="modifyInfo" class="userController" method="modifyInfo">
-            <result name="success">/success.jsp</result>
-        </action>
-        
-       	 <!-- 更新用户密码 -->
-         <action name="modifyPsw" class="userController" method="modifyPassword">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-          <!-- 新增一个用户 -->
-         <action name="addNewUser" class="userController" method="addNewUser">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <!-- 删除一个用户 -->
-         <action name="deleteUser" class="userController" method="deleteUser">
-            <result name="success">/success.jsp</result>
-         </action>
-        
-        <action name="addNewCategory" class="categoryController" method="addNewCategory">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="checkRootCategories" class="categoryController" method="checkRootCategories">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-          <action name="checkChildCategories" class="categoryController" method="checkChildCategories">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="deleteCategory" class="categoryController" method="deleteCategory">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="checkCategory" class="categoryController" method="checkCategory">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="updateCategory" class="categoryController" method="updateCategory">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="addNewOrder" class="orderController" method="addNewOrder">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="checkAllOrders" class="orderController" method="checkAllOrders">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="checkOrders" class="orderController" method="checkOrders">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="checkOrder" class="orderController" method="checkOrder">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="updateOrder" class="orderController" method="updateOrder">
-            <result name="success">/success.jsp</result>
-         </action>
-         
-         <action name="deleteOrder" class="orderController" method="deleteOrder">
-            <result name="success">/success.jsp</result>
-         </action>
-    </package>
-    <!--UserController End-->
+		
+		<!-- 全局变量 start -->
+		<global-results>
+			<result name="login">/Resources/pages/login.jsp</result>
+			<result name="error">/Resources/pages/error.jsp</result>
+		</global-results>
+		<!-- 全局变量 end -->
+	</package>
+	
+	<include file="struts_user.xml"/>
+	<include file="struts_admin.xml"/>
+	<include file="struts_category.xml"/>
+	<include file="struts_order.xml"/>
 </struts>

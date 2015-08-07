@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+	<!--User module start -->
+	<package name="loginAndRegister" namespace="/" extends="struts-default">
+		<!-- 登陆 -->
+		<action name="login" class="userController" method="login">
+			<result name="success">/Resources/pages/main.jsp</result>
+		</action>
+		
+		<!-- 注册 -->
+		<action name="register" class="userController" method="register">
+			<result name="success">/Resources/pages/main.jsp</result>
+		</action>
+	</package>
+	
+	<package name="User" namespace="/user" extends="basePackage">
+		<!-- 更新密码 -->
+		<action name="addNewUser" class="userController" method="addNewUser">
+			<result name="success">/success.jsp</result>
+		</action>
+	
+		<!-- 更新密码 -->
+		<action name="modifyPsw" class="userController" method="modifyPassword">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<!-- 更新信息 -->
+		<action name="modifyInfo" class="userController" method="modifyInfo">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<!-- 退出登陆 -->
+		<action name="logOut" class="userController" method="logOut">
+			<result name="success">/success.jsp</result>
+		</action>
+	</package>
+	<!--User module end -->
+</struts>

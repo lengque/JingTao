@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- Category module start -->
+	<package name="Category" namespace="/category" extends="struts-default">
+		<action name="addNewCategory" class="categoryController" method="addNewCategory">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkRootCategories" class="categoryController" method="checkRootCategories">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkChildCategories" class="categoryController" method="checkChildCategories">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="deleteCategory" class="categoryController" method="deleteCategory">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="checkCategory" class="categoryController" method="checkCategory">
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="updateCategory" class="categoryController" method="updateCategory">
+			<result name="success">/success.jsp</result>
+		</action>
+	</package>
+	<!-- Category module end -->
+</struts>

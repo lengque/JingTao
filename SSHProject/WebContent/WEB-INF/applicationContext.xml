@@ -113,6 +113,7 @@
     <bean id="userController" class="controller.UserController">  
         <property name="userService" ref="userService"/>
         <property name="userConverter" ref="userConverter"/>
+        <property name="page" ref="pageBean"/>
     </bean>
     
     <!-- 管理目录 -->  
@@ -200,8 +201,8 @@
     <bean id="userConverter" class="converter.UserConverter"/>
     <!-- orderConvert -->
     <bean id="orderConverter" class="converter.OrderConverter"/>
-    
     <!-- validators start -->
+    
     <!-- username is exist in db -->
     <bean id="userNameExistValidator" class="validatorImpl.UserNameExistValidator"/>
     
@@ -214,4 +215,7 @@
     <!--interceptors start-->
     <bean id="loginInterceptor" class="Interceptor.LoginInterceptor"/>
     <!--interceptors end-->
+    
+    <!-- userDao -->
+  	<bean id="pageBean" class="model.PageBean"/>
 </beans>  

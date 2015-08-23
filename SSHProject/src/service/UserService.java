@@ -2,13 +2,14 @@ package service;
 
 import java.util.List;
 
+import model.PageBean;
 import model.User;
 
 public interface UserService {
 	/**
 	 * check out one user from database
 	 */
-	public List<User> userList();
+	public PageBean<User> userList(User user,PageBean<User> page);
 	/**
 	 * check out one user from database
 	 */

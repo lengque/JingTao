@@ -7,6 +7,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import service.UserService;
 import util.UserUtil;
+import model.PageBean;
 import model.User;
 import model.UserDTO;
 import Exception.BaseException;
@@ -20,17 +21,23 @@ public class UserController extends ActionSupport implements SessionAware {
 	private UserService userService;
 	private UserConverter userConverter;
 	private UserDTO userDTO;
+	private PageBean<User> page;
 	protected Map<String, Object> session;
 	private Log logger = LogFactory.getLog(this.getClass().getName());
 	
 	/**
-	 * user list
+	 * <p>查询分页数据</p>
+	 * @parm pageBean
+	 * @parm UserDTO
 	 */
 	public String userList() {
 		try {
-			logger.debug("start check userList");
-			userService.userList();
-
+			logger.debug("start check userList~~~");
+			//将userDto转换成为User
+			User user = userConverter.converter(userDTO);
+			
+			page = userService.userList(user, page);
+			
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -229,10 +236,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	}
 
 	/**
-	 * <p>
 	 * userRegisterService
-	 * </p>
-	 * 
 	 */
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -249,14 +253,19 @@ public class UserController extends ActionSupport implements SessionAware {
 	}
 
 	/**
-	 * <p>
 	 * 注入session
-	 * </p>
-	 * 
 	 */
 	@Override
 	public void setSession(Map<String, Object> session) {
 		// TODO Auto-generated method stub
 		this.session = session;
+	}
+
+	public PageBean<User> getPage() {
+		return page;
+	}
+
+	public void setPage(PageBean<User> page) {
+		this.page = page;
 	}
 }

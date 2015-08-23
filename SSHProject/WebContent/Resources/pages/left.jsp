@@ -25,7 +25,7 @@ $(function(){
 			$(this).next('ul').slideDown();
 		}
 	});
-})	
+})
 </script>
 
 

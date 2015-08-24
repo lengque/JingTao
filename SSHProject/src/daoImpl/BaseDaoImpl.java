@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.PageBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -124,7 +125,13 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 				Object val = field.get(object);
 
 				if (null != val) {
-					daoCriteria.add(Restrictions.eq(fieldName, type.cast(val)));
+					if(!(val instanceof String)){
+						daoCriteria.add(Restrictions.eq(fieldName, type.cast(val)));
+					}else{
+						if(StringUtils.isNotBlank(val.toString())){
+							daoCriteria.add(Restrictions.eq(fieldName, type.cast(val)));
+						}
+					}
 				}
 			}
 
@@ -172,7 +179,13 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 						criteria.add(Restrictions.like(fieldName, "%" + val
 								+ "%"));
 					} else {
-						criteria.add(Restrictions.eq(fieldName, type.cast(val)));
+						if(!(val instanceof String)){
+							criteria.add(Restrictions.eq(fieldName, type.cast(val)));
+						}else{
+							if(StringUtils.isNotBlank(val.toString())){
+								criteria.add(Restrictions.eq(fieldName, type.cast(val)));
+							}
+						}
 					}
 				}
 			}

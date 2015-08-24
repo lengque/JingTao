@@ -32,7 +32,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	 */
 	public String userList() {
 		try {
-			logger.debug("start check userList~~~");
+			logger.debug("start chec k userList~~~");
 			//将userDto转换成为User
 			User user = userConverter.converter(userDTO);
 			
@@ -111,10 +111,10 @@ public class UserController extends ActionSupport implements SessionAware {
 			userDTO = userConverter.reverseConverter(dbUser);
 
 			// 4.set the logger in state to session and return the userDTO
-			session.put(UserUtil.User_Login, user);
+			session.put(UserUtil.User_Login, dbUser);
 			session.put(UserUtil.User_Is_Login,true);
 			
-			session.put("userDTO", userDTO);
+			session.put("userDTO", dbUser);
 
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");

@@ -110,19 +110,18 @@
 	</bean>
   	
   	<!-- 管理用户 -->  
-    <bean id="userController" class="controller.UserController">  
+    <bean id="userController" class="controller.UserController" scope="prototype">  
         <property name="userService" ref="userService"/>
         <property name="userConverter" ref="userConverter"/>
-        <property name="page" ref="pageBean"/>
     </bean>
     
     <!-- 管理目录 -->  
-    <bean id="categoryController" class="controller.CategoryController">  
+    <bean id="categoryController" class="controller.CategoryController" scope="prototype">  
         <property name="categoryService" ref="categoryService"/>
     </bean>
     
     <!-- 管理单子 -->
-    <bean id="orderController" class="controller.OrderController">  
+    <bean id="orderController" class="controller.OrderController" scope="prototype">  
         <property name="orderService" ref="orderService"/>
         <property name="orderConverter" ref="orderConverter"/>
     </bean>
@@ -215,7 +214,4 @@
     <!--interceptors start-->
     <bean id="loginInterceptor" class="Interceptor.LoginInterceptor"/>
     <!--interceptors end-->
-    
-    <!-- userDao -->
-  	<bean id="pageBean" class="model.PageBean"/>
-</beans>  
+</beans>

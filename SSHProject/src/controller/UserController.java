@@ -2,6 +2,9 @@ package controller;
 
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.*;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -24,7 +27,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	private PageBean<User> page;
 	protected Map<String, Object> session;
 	private Log logger = LogFactory.getLog(this.getClass().getName());
-	
+	private String userName;
 	/**
 	 * <p>查询分页数据</p>
 	 * @parm pageBean
@@ -37,7 +40,10 @@ public class UserController extends ActionSupport implements SessionAware {
 			User user = userConverter.converter(userDTO);
 			
 			page = userService.userList(user, page);
-			
+			String json1 = JSONObject.fromObject(page).toString();
+			String json2 = JSONArray.fromObject(page).toString();
+			System.out.println("Json1: "+json1);
+			System.out.println("Json2 "+json2);
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -95,7 +101,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	 * login
 	 */
 	public String login() {
-
+		System.out.println(userName);
 		try {
 			if(logger.isDebugEnabled()){
 				logger.debug("开始登录~~~");
@@ -114,12 +120,13 @@ public class UserController extends ActionSupport implements SessionAware {
 			session.put(UserUtil.User_Login, dbUser);
 			session.put(UserUtil.User_Is_Login,true);
 			
-			session.put("userDTO", dbUser);
-
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");
 			}
+			return SUCCESS;
 		} catch (BaseException e) {
+			session.put(UserUtil.User_Login, null);
+			session.put(UserUtil.User_Is_Login,false);
 			if(logger.isErrorEnabled()){
 				logger.error("登录失败");
 			}
@@ -267,5 +274,9 @@ public class UserController extends ActionSupport implements SessionAware {
 
 	public void setPage(PageBean<User> page) {
 		this.page = page;
+	}
+	
+	public void setUserName(String userName){
+		this.userName = userName;
 	}
 }

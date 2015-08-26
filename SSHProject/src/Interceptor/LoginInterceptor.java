@@ -32,8 +32,17 @@ public class LoginInterceptor extends AbstractInterceptor {
 		// 获取session
 		Map session = ctx.getSession();
 		// 获取用户
-		User user = (User)session.get(UserUtil.User_Login);
-		Boolean isLogin = (Boolean) session.get(UserUtil.User_Is_Login);
+		Object obj = session.get(UserUtil.User_Login);
+		Object flag = session.get(UserUtil.User_Is_Login);
+		
+		User user = null;
+		Boolean isLogin = null;
+		if(null != obj){
+			user = (User)obj;
+		}
+		if(null!= flag){
+			isLogin = (Boolean)flag;
+		}
 		
 		if(isLogin && null != user){
 			if(logger.isDebugEnabled()){

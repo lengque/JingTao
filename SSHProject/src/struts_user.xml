@@ -9,6 +9,7 @@
 		<!-- 登陆 -->
 		<action name="login" class="userController" method="login">
 			<result name="success">/Resources/pages/main.jsp</result>
+			<result name="login">/Resources/pages/login.jsp</result>
 		</action>
 		
 		<!-- 注册 -->

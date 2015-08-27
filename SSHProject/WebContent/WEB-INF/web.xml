@@ -22,10 +22,10 @@
     <filter> 
 		<filter-name>OpenSessionInViewFilter</filter-name>  
 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class> 
-	</filter> 
+	</filter>
   
     <welcome-file-list>  
-        <welcome-file>index.jsp</welcome-file>  
+        <welcome-file>WebApp/web/index.html</welcome-file>  
     </welcome-file-list>  
   
 </web-app> 

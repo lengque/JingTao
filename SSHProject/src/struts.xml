@@ -25,7 +25,7 @@
 		
 		<!-- 全局变量 start -->
 		<global-results>
-			<result name="login">/Resources/pages/login.jsp</result>
+			<result type="redirect" name="login">/Resources/pages/login.jsp</result>
 			<result name="error">/Resources/pages/error.jsp</result>
 		</global-results>
 		<!-- 全局变量 end -->

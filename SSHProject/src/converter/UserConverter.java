@@ -71,8 +71,7 @@ public class UserConverter {
 	}
 
 	/**
-	 * 
-	 * 
+	 * user login convert
 	 */
 	public User loginConverter(UserDTO userDTO) {
 		User user = new User();
@@ -101,6 +100,26 @@ public class UserConverter {
 		return user;
 	}
 
+	
+	public User converter(UserDTO userDto){
+		User user = new User();
+		
+		if(null != userDto){
+			user.setUserName(userDto.getUserName());
+			user.setGender(userDto.getGender());
+			user.setRealName(userDto.getRealName());
+			user.setEmail(userDto.getEmail());
+			user.setTelphone(userDto.getTelphone());
+			user.setAddress(userDto.getAddress());
+			user.setIdCardNo(userDto.getIdCardNo());
+			user.setGrade(userDto.getGrade());
+			user.setState(userDto.getState());
+			user.setCreateTime(userDto.getCreateTime());
+		}
+		
+		return user;
+	}
+	
 	/**
 	 *User
 	 */

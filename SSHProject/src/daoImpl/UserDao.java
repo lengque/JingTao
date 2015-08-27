@@ -2,14 +2,8 @@ package daoImpl;
 
 import java.util.List;
 
+import model.PageBean;
 import model.User;
-
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.apache.commons.lang.StringUtils;
 
 import dao.BaseDao;
 
@@ -91,5 +85,9 @@ public class UserDao{
 		user = baseDao.updateObject(user);
 		
 		return user;
+	}
+	
+	public PageBean<User> findPage(User user, int currentPage, int pageSize){
+		return baseDao.findPage(user, currentPage, pageSize);
 	}
 }  

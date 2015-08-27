@@ -2,11 +2,15 @@ package controller;
 
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.*;
 import org.apache.struts2.interceptor.SessionAware;
 
 import service.UserService;
 import util.UserUtil;
+import model.PageBean;
 import model.User;
 import model.UserDTO;
 import Exception.BaseException;
@@ -20,17 +24,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	private UserService userService;
 	private UserConverter userConverter;
 	private UserDTO userDTO;
+	private PageBean<User> page;
 	protected Map<String, Object> session;
 	private Log logger = LogFactory.getLog(this.getClass().getName());
-	
+	private String userName;
 	/**
-	 * user list
+	 * <p>查询分页数据</p>
+	 * @parm pageBean
+	 * @parm UserDTO
 	 */
 	public String userList() {
 		try {
-			logger.debug("start check userList");
-			userService.userList();
-
+			logger.debug("start chec k userList~~~");
+			//将userDto转换成为User
+			User user = userConverter.converter(userDTO);
+			
+			page = userService.userList(user, page);
+			String json1 = JSONObject.fromObject(page).toString();
+			String json2 = JSONArray.fromObject(page).toString();
+			System.out.println("Json1: "+json1);
+			System.out.println("Json2 "+json2);
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -88,7 +101,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	 * login
 	 */
 	public String login() {
-
+		System.out.println(userName);
 		try {
 			if(logger.isDebugEnabled()){
 				logger.debug("开始登录~~~");
@@ -104,15 +117,16 @@ public class UserController extends ActionSupport implements SessionAware {
 			userDTO = userConverter.reverseConverter(dbUser);
 
 			// 4.set the logger in state to session and return the userDTO
-			session.put(UserUtil.User_Login, user);
+			session.put(UserUtil.User_Login, dbUser);
 			session.put(UserUtil.User_Is_Login,true);
 			
-			session.put("userDTO", userDTO);
-
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");
 			}
+			return SUCCESS;
 		} catch (BaseException e) {
+			session.put(UserUtil.User_Login, null);
+			session.put(UserUtil.User_Is_Login,false);
 			if(logger.isErrorEnabled()){
 				logger.error("登录失败");
 			}
@@ -229,10 +243,7 @@ public class UserController extends ActionSupport implements SessionAware {
 	}
 
 	/**
-	 * <p>
 	 * userRegisterService
-	 * </p>
-	 * 
 	 */
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -249,14 +260,23 @@ public class UserController extends ActionSupport implements SessionAware {
 	}
 
 	/**
-	 * <p>
 	 * 注入session
-	 * </p>
-	 * 
 	 */
 	@Override
 	public void setSession(Map<String, Object> session) {
 		// TODO Auto-generated method stub
 		this.session = session;
+	}
+
+	public PageBean<User> getPage() {
+		return page;
+	}
+
+	public void setPage(PageBean<User> page) {
+		this.page = page;
+	}
+	
+	public void setUserName(String userName){
+		this.userName = userName;
 	}
 }

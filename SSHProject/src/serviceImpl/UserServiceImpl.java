@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import model.PageBean;
 import model.User;
 
 import org.apache.commons.lang.StringUtils;
@@ -63,10 +64,17 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 获取 用户列表
 	 */
-	public List<User> userList(){
-		List<User> userPage= userDao.userList();
+	public PageBean<User> userList(User user,PageBean<User> page){
 		
-		return userPage;
+		if(null != page){
+			int curPageNum = page.getCurrentPage();
+			int pageSize = page.getPageSize();
+			
+			page = userDao.findPage(user, curPageNum, pageSize);
+		}
+		
+		
+		return page;
 	}
 	
 	/**

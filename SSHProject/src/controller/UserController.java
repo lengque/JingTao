@@ -2,10 +2,13 @@ package controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.*;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import service.UserService;
@@ -19,7 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import converter.UserConverter;
 
-public class UserController extends ActionSupport implements SessionAware {
+public class UserController extends ActionSupport implements SessionAware,ServletResponseAware {
 
 	private UserService userService;
 	private UserConverter userConverter;
@@ -28,6 +31,8 @@ public class UserController extends ActionSupport implements SessionAware {
 	protected Map<String, Object> session;
 	private Log logger = LogFactory.getLog(this.getClass().getName());
 	private String userName;
+	private javax.servlet.http.HttpServletResponse response;
+	
 	/**
 	 * <p>查询分页数据</p>
 	 * @parm pageBean
@@ -101,8 +106,8 @@ public class UserController extends ActionSupport implements SessionAware {
 	 * login
 	 */
 	public String login() {
-		System.out.println(userName);
 		try {
+			
 			if(logger.isDebugEnabled()){
 				logger.debug("开始登录~~~");
 			}
@@ -111,8 +116,8 @@ public class UserController extends ActionSupport implements SessionAware {
 			User user = userConverter.loginConverter(userDTO);
 
 			// 2.get the user info from database
-			User dbUser = userService.login(user);
-
+			//User dbUser = userService.login(user);
+			User dbUser = new User();
 			// 3.convert the user to userDTO
 			userDTO = userConverter.reverseConverter(dbUser);
 
@@ -123,7 +128,7 @@ public class UserController extends ActionSupport implements SessionAware {
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");
 			}
-			return SUCCESS;
+			
 		} catch (BaseException e) {
 			session.put(UserUtil.User_Login, null);
 			session.put(UserUtil.User_Is_Login,false);
@@ -133,7 +138,7 @@ public class UserController extends ActionSupport implements SessionAware {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		return SUCCESS;
 	}
 	
@@ -186,7 +191,6 @@ public class UserController extends ActionSupport implements SessionAware {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return SUCCESS;
 	}
 
@@ -230,9 +234,9 @@ public class UserController extends ActionSupport implements SessionAware {
 	/**
 	 * set userDTO
 	 */
-	public UserDTO getUserDTO() {
+	/*public UserDTO getUserDTO() {
 		return userDTO;
-	}
+	}*/
 
 	/**
 	 * get userDTO
@@ -268,15 +272,24 @@ public class UserController extends ActionSupport implements SessionAware {
 		this.session = session;
 	}
 
-	public PageBean<User> getPage() {
+	/*public PageBean<User> getPage() {
 		return page;
 	}
 
 	public void setPage(PageBean<User> page) {
 		this.page = page;
-	}
+	}*/
 	
 	public void setUserName(String userName){
 		this.userName = userName;
+	}
+	
+	public String getUserName(){
+		return this.userName;	
+	}
+
+	@Override
+	public void setServletResponse(HttpServletResponse response) {
+		this.response = response;
 	}
 }

@@ -5,11 +5,14 @@
 	
 <struts>
 	<!--User module start -->
-	<package name="loginAndRegister" namespace="/" extends="struts-default">
+	<package name="loginAndRegister" namespace="/" extends="json-default">
 		<!-- 登陆 -->
 		<action name="login" class="userController" method="login">
-			<result name="success">/Resources/pages/main.jsp</result>
-			<result name="login">/Resources/pages/login.jsp</result>
+			<result type="json">
+				<param name="root">userName</param>
+			</result>
+			<!-- <result name="success">/Resources/pages/main.jsp</result>
+			<result name="login">/Resources/pages/login.jsp</result> -->
 		</action>
 		
 		<!-- 注册 -->

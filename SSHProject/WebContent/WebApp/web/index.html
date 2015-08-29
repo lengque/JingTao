@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -7,27 +7,67 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <title>欢迎登录后台管理系统</title>
+    <link href="WebApp/lib/css/style.css" rel="stylesheet" type="text/css" />
     <style>
         span.warn{
             color:red;
             padding-left: 45px;
         }
     </style>
-<script language="JavaScript" src="WebContent/WebApp/js/jquery.js">
-   function sub(){
-	   alert(1);
-	   var userName = "zhangsan";
-	   alert(userName);
-	    $.ajax({  
-	        url : "login.action",
-	        type : "post",  
-	        data : "userName=" + userName,  
-	        success : function(data, textStatus) {  
-	            alert(data);  
-	        }
-	    });
-   }
-</script>
+    <script language="JavaScript" src="WebApp/lib/js/jquery.js"></script>
+    <script src="WebApp/lib/js/common.js" type="text/javascript"></script>
+    <script language="javascript">
+    $(function() {
+        $('.loginbox').css({
+            'position': 'absolute',
+            'left': ($(window).width() - 692) / 2
+        });
+        $(window).resize(function() {
+            $('.loginbox').css({
+                'position': 'absolute',
+                'left': ($(window).width() - 692) / 2
+            });
+        })
+        var username = $("#username"), pwd = $("#password");
+       
+        $("#login").click(
+        	function(){
+	            var userName = $("#username"), pwd = $("#password"), rmb = $("#rmb");
+	            if(userName.val()!=="" && pwd.val()!==""){
+	                if(rmb.is(":checked")){
+	                    localStorage.setItem("logonName", userName);
+	                }
+	                
+	                $.ajax({
+	                    url : "login.action",
+	                    type : "post",
+	                    data : {"userName":"123"},
+	                    dataType:'json',
+	                    success : function(data, textStatus) {  
+	                        alert(data);
+	                	}
+	                });
+	            }else{
+	                return;
+	            }
+        });
+        
+        username.bind("blur", function(){
+            if(username.val().trim() === ""){
+                $("#username").next().show();
+            }else{
+                $("#username").next().hide();
+            }
+        });
+        pwd.bind("blur", function(){
+            if(pwd.val().trim() === ""){
+                $("#password").next().show();
+            }else{
+                $("#password").next().hide();
+            }
+        });
+    });
+    </script>
 </head>
 
 <body style="background-color:#1c77ac; overflow:hidden;">
@@ -56,7 +96,7 @@
                         <span class="warn" style="display:none">密码不正确</span>
                     </li>
                     <li>
-                        <input name="login" id="login" type="button" onclick="sub();" class="loginbtn" value="登录"/>
+                        <input name="login" id="login" type="button" class="loginbtn" value="登录"/>
                         <label>
                             <input name="rmb" id="rmb" type="checkbox" value="" checked="checked" />记住密码</label>
                         <label><a href="#">忘记密码？</a></label>

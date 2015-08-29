@@ -2,13 +2,10 @@ package controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.*;
-import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import service.UserService;
@@ -22,16 +19,18 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import converter.UserConverter;
 
-public class UserController extends ActionSupport implements SessionAware,ServletResponseAware {
-
+public class UserController extends ActionSupport implements SessionAware {
+	private Log logger = LogFactory.getLog(this.getClass().getName());
+	
 	private UserService userService;
 	private UserConverter userConverter;
+	
 	private UserDTO userDTO;
 	private PageBean<User> page;
+	private JSONObject requestJson;
+	private String responseJson;
+	
 	protected Map<String, Object> session;
-	private Log logger = LogFactory.getLog(this.getClass().getName());
-	private String userName;
-	private javax.servlet.http.HttpServletResponse response;
 	
 	/**
 	 * <p>查询分页数据</p>
@@ -107,20 +106,25 @@ public class UserController extends ActionSupport implements SessionAware,Servle
 	 */
 	public String login() {
 		try {
-			
 			if(logger.isDebugEnabled()){
 				logger.debug("开始登录~~~");
 			}
-			
+			//0.adptor change the json to object
+			//0.1 change the request json to json object
+			JSONObject  request= JSONObject.fromObject(requestJson);
+			userDTO = (UserDTO)JSONObject.toBean(request, UserDTO.class);
 			// 1.primary check and convert
 			User user = userConverter.loginConverter(userDTO);
 
 			// 2.get the user info from database
-			//User dbUser = userService.login(user);
-			User dbUser = new User();
+			User dbUser = userService.login(user);
 			// 3.convert the user to userDTO
 			userDTO = userConverter.reverseConverter(dbUser);
 
+			// 4.change the userDTO to response Json
+			JSONObject response = JSONObject.fromObject(userDTO);
+			responseJson = response.toString();
+			
 			// 4.set the logger in state to session and return the userDTO
 			session.put(UserUtil.User_Login, dbUser);
 			session.put(UserUtil.User_Is_Login,true);
@@ -128,7 +132,6 @@ public class UserController extends ActionSupport implements SessionAware,Servle
 			if(logger.isDebugEnabled()){
 				logger.info("登录成功");
 			}
-			
 		} catch (BaseException e) {
 			session.put(UserUtil.User_Login, null);
 			session.put(UserUtil.User_Is_Login,false);
@@ -169,7 +172,7 @@ public class UserController extends ActionSupport implements SessionAware,Servle
 
 		return LOGIN;
 	}
-
+	
 	/**
 	 * modify info
 	 * 
@@ -254,10 +257,7 @@ public class UserController extends ActionSupport implements SessionAware,Servle
 	}
 
 	/**
-	 * <p>
 	 * UserConverter
-	 * </p>
-	 * 
 	 */
 	public void setUserConverter(UserConverter userConverter) {
 		this.userConverter = userConverter;
@@ -280,16 +280,31 @@ public class UserController extends ActionSupport implements SessionAware,Servle
 		this.page = page;
 	}*/
 	
-	public void setUserName(String userName){
-		this.userName = userName;
+	/**
+	 * set request json
+	 */
+	public void setRequestJson(JSONObject requestJson){
+		this.requestJson = requestJson;
 	}
 	
-	public String getUserName(){
-		return this.userName;	
+	/**
+	 * get response json
+	 */
+	public void getResponseJson(String responseJson){
+		this.responseJson = responseJson;
 	}
-
-	@Override
-	public void setServletResponse(HttpServletResponse response) {
-		this.response = response;
-	}
+	
+/*	//test
+	public static void main(String[] args){
+		UserDTO userDTO = new UserDTO();
+		userDTO.setEmail("asdf");
+		userDTO.setConfirmPsw("sa");
+		User user = new User();
+		user.setAddress("asdf");
+		user.setEmail("asd");
+		Object[] objects = {userDTO,user};
+		JSONArray  json= JSONArray.fromObject(objects);
+		
+		System.out.println(json.toString());
+	}*/
 }

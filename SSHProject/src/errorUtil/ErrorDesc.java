@@ -5,8 +5,8 @@ public enum ErrorDesc {
 	 * user error list
 	 */
 	USER_NOT_LOGIN("用户未登录"),//用户未登录
-	USERNAME_IS_BLANK("用户名不能唯恐"),//用户名为空
-	USERNAME_TOO_LONG("用户名不要超过15位"),//用户名过长
+	USERNAME_IS_BLANK("用户名不能为空"),//用户名为空
+	USERNAME_TOO_LONG("用户名不要超过16位"),//用户名过长
 	USERNAME_EXIST("用户名已存在"),//用户名已存在
 	USERNAME_NOT_EXIST("用户不存在"),//用户名不存在
 	USER_PASSWORD_IS_BLANK("密码为空"),//不设密码真的好吗
@@ -34,7 +34,7 @@ public enum ErrorDesc {
 	 */
 	//order title
 	ORDER_TITLE_IS_BLANK("标题不能为空"),//标题不能为空
-	ORDER_TITLE_TOO_LONG("标题过长"),
+	ORDER_TITLE_TOO_LONG("标题不能超过20字"),
 	//order degree
 	ORDER_DEGREE_IS_BLANK("新旧程度为空"),//
 	//order price

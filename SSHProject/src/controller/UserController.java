@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONArray;
@@ -11,25 +13,33 @@ import org.apache.struts2.interceptor.SessionAware;
 import service.UserService;
 import util.UserUtil;
 import model.PageBean;
+import model.Response;
 import model.User;
 import model.UserDTO;
 import Exception.BaseException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import converter.JsonAdaptor;
 import converter.UserConverter;
 
 public class UserController extends ActionSupport implements SessionAware {
+	private static final long serialVersionUID = 1L;
+
 	private Log logger = LogFactory.getLog(this.getClass().getName());
 	
+	
+	//最终留下 start
 	private UserService userService;
 	private UserConverter userConverter;
+	private JsonAdaptor adptor;
 	
-	private UserDTO userDTO;
-	private PageBean<User> page;
-	private JSONObject requestJson;
+	private String requestJson;
 	private String responseJson;
+	private List<Object> dtoList;
+	//最终留下 end
 	
+	private Response result;
 	protected Map<String, Object> session;
 	
 	/**
@@ -40,14 +50,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	public String userList() {
 		try {
 			logger.debug("start chec k userList~~~");
+			JSONObject  requestObjects = adptor.RequestAdapt(requestJson);
+			JSONObject userDTOJson = requestObjects.getJSONObject("userDTO");
+			JSONObject pageJson = requestObjects.getJSONObject("page");
+			
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(userDTOJson, UserDTO.class);
+			PageBean pageDTO = (PageBean)pageJson.toBean(pageJson,PageBean.class);
+			
 			//将userDto转换成为User
 			User user = userConverter.converter(userDTO);
 			
-			page = userService.userList(user, page);
-			String json1 = JSONObject.fromObject(page).toString();
-			String json2 = JSONArray.fromObject(page).toString();
-			System.out.println("Json1: "+json1);
-			System.out.println("Json2 "+json2);
+			PageBean page = userService.userList(user, pageDTO);
+			
+			//adaptor page to result
+			dtoList = new ArrayList<Object>();
+			dtoList.add(page);
+			
+			result = new Response();
+			result.setDtoList(dtoList);
+			//adapt the result to response json
+			responseJson = adptor.ResponseAdapt(result);
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -64,13 +86,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	public String register() {
 		try {
 			logger.debug("start register user");
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
 			
 			// 1.convert the userDTO to user
 			User user = userConverter.registerConverter(userDTO);
 
 			// 2.involk userService to save the user
-			userService.saveUser(user);
+			User dbUser = userService.saveUser(user);
 			
+			//3.prepare a list for contain dto list
+			dtoList = new ArrayList<Object>();
+			// 3.1 convert the user to userDTO
+			userDTO = userConverter.reverseConverter(dbUser);
+			dtoList.add(userDTO);
+			
+			//create result 
+			result = new Response();
+			result.setDtoList(dtoList);
+			
+			responseJson = adptor.ResponseAdapt(result);
 			logger.debug("register user end");
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
@@ -85,11 +120,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	public String addNewUser() {
 		try {
 			logger.debug("start add new user");
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
+			
 			// 1.convert the userDTO to user
 			User user = userConverter.registerConverter(userDTO);
 
 			// 2.involk userService to save the user
-			userService.saveUser(user);
+			User dbUser = userService.saveUser(user);
+			
+			//3.prepare a list for contain dto list
+			dtoList = new ArrayList<Object>();
+			// 3.1 convert the user to userDTO
+			userDTO = userConverter.reverseConverter(dbUser);
+			dtoList.add(userDTO);
+			
+			//create result 
+			result = new Response();
+			result.setDtoList(dtoList);
+			
+			responseJson = adptor.ResponseAdapt(result);
 			logger.debug("add new user success");
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
@@ -110,20 +160,27 @@ public class UserController extends ActionSupport implements SessionAware {
 				logger.debug("开始登录~~~");
 			}
 			//0.adptor change the json to object
-			//0.1 change the request json to json object
-			JSONObject  request= JSONObject.fromObject(requestJson);
-			userDTO = (UserDTO)JSONObject.toBean(request, UserDTO.class);
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
+			
 			// 1.primary check and convert
 			User user = userConverter.loginConverter(userDTO);
 
 			// 2.get the user info from database
 			User dbUser = userService.login(user);
-			// 3.convert the user to userDTO
+			
+			//3.prepare a list for contain dto list
+			dtoList = new ArrayList<Object>();
+			// 3.1 convert the user to userDTO
 			userDTO = userConverter.reverseConverter(dbUser);
-
-			// 4.change the userDTO to response Json
-			JSONObject response = JSONObject.fromObject(userDTO);
-			responseJson = response.toString();
+			
+			dtoList.add(userDTO);
+			
+			//create result 
+			result = new Response();
+			result.setDtoList(dtoList);
+			
+			responseJson = adptor.ResponseAdapt(result);
 			
 			// 4.set the logger in state to session and return the userDTO
 			session.put(UserUtil.User_Login, dbUser);
@@ -179,15 +236,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	 */
 	public String modifyInfo() {
 		try {
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
 			// 1.convert the userDTO to user
 			User user = userConverter.modifyConverter(userDTO,session);
 
 			// 2.save the new info to db
-			user = this.userService.updateUserInfo(user);
+			User dbUser = this.userService.updateUserInfo(user);
 
-			// 3.convert user to UserDto
-			userDTO = userConverter.reverseConverter(user);
-
+			//3.prepare a list for contain dto list
+			dtoList = new ArrayList<Object>();
+			// 3.1 convert the user to userDTO
+			userDTO = userConverter.reverseConverter(dbUser);
+			dtoList.add(userDTO);
+			
+			//create result 
+			result = new Response();
+			result.setDtoList(dtoList);
+			
+			responseJson = adptor.ResponseAdapt(result);
+			logger.debug("register user end");
 		} catch (BaseException e) {
 			String errorMessage = e.getMessage();
 			System.out.println(errorMessage);
@@ -202,11 +270,26 @@ public class UserController extends ActionSupport implements SessionAware {
 	 */
 	public String modifyPassword() {
 		try {
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
 			// convert userDTO to user for password
 			User user = userConverter.modifyPswConverter(userDTO, session);
 			// 2.save the new password to db
-			user = this.userService.updateUserPsw(user);
+			User dbUser = this.userService.updateUserPsw(user);
 
+			//3.prepare a list for contain dto list
+			dtoList = new ArrayList<Object>();
+			// 3.1 convert the user to userDTO
+			userDTO = userConverter.reverseConverter(dbUser);
+			dtoList.add(userDTO);
+			
+			//create result 
+			result = new Response();
+			result.setDtoList(dtoList);
+			
+			responseJson = adptor.ResponseAdapt(result);
+			logger.debug("register user end");
+			
 			// 3.logger out and go to logger on page
 			session.clear();
 
@@ -223,30 +306,23 @@ public class UserController extends ActionSupport implements SessionAware {
 	 */
 	public String deleteUser() {
 		try {
+			JSONObject  requestObject = adptor.RequestAdapt(requestJson);
+			UserDTO userDTO = (UserDTO)JSONObject.toBean(requestObject, UserDTO.class);
 			// if user is login convert the userDTO to user
 			User user = userConverter.deleteUserConverter(userDTO);
 			// delete the user from DB
 			userService.deleteUser(user);
+			
+			//create result 
+			result = new Response();
+			
+			responseJson = adptor.ResponseAdapt(result);
+			logger.debug("register user end");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return SUCCESS;
-	}
-
-	/**
-	 * set userDTO
-	 */
-	/*public UserDTO getUserDTO() {
-		return userDTO;
-	}*/
-
-	/**
-	 * get userDTO
-	 * 
-	 */
-	public void setUserDTO(UserDTO userDTO) {
-		this.userDTO = userDTO;
 	}
 
 	/**
@@ -272,26 +348,25 @@ public class UserController extends ActionSupport implements SessionAware {
 		this.session = session;
 	}
 
-	/*public PageBean<User> getPage() {
-		return page;
+	/**
+	 * 注入jsonAdaptor
+	 */	
+	public void setAdptor(JsonAdaptor adptor) {
+		this.adptor = adptor;
 	}
-
-	public void setPage(PageBean<User> page) {
-		this.page = page;
-	}*/
 	
 	/**
 	 * set request json
 	 */
-	public void setRequestJson(JSONObject requestJson){
+	public void setRequestJson(String requestJson){
 		this.requestJson = requestJson;
 	}
 	
 	/**
 	 * get response json
 	 */
-	public void getResponseJson(String responseJson){
-		this.responseJson = responseJson;
+	public String getResponseJson(){
+		return this.responseJson;
 	}
 	
 /*	//test

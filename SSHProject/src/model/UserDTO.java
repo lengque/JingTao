@@ -19,8 +19,8 @@ public class UserDTO {
     private Integer role;
     private Integer grade;
     private Integer state;
-    private Timestamp createTime;
-    private Timestamp updateTime;
+    private String createTime;
+    private String updateTime;
 	
 	public String getUserName() {
 		return userName;
@@ -100,16 +100,16 @@ public class UserDTO {
 	public void setState(Integer state) {
 		this.state = state;
 	}
-	public Timestamp getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public Timestamp getUpdateTime() {
+	public String getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 	public Integer getRole() {

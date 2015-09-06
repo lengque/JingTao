@@ -113,6 +113,7 @@
     <bean id="userController" class="controller.UserController" scope="prototype">  
         <property name="userService" ref="userService"/>
         <property name="userConverter" ref="userConverter"/>
+        <property name="adptor" ref="adptor"/>
     </bean>
     
     <!-- 管理目录 -->  
@@ -200,6 +201,8 @@
     <bean id="userConverter" class="converter.UserConverter"/>
     <!-- orderConvert -->
     <bean id="orderConverter" class="converter.OrderConverter"/>
+    <!-- adaptor -->
+     <bean id="adptor" class="converter.JsonAdaptor"/>
     <!-- validators start -->
     
     <!-- username is exist in db -->

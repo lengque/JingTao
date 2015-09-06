@@ -1,6 +1,7 @@
 package converter;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.catalina.Session;
@@ -114,7 +115,11 @@ public class UserConverter {
 			user.setIdCardNo(userDto.getIdCardNo());
 			user.setGrade(userDto.getGrade());
 			user.setState(userDto.getState());
-			user.setCreateTime(userDto.getCreateTime());
+			//set create time
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String createTime = df.format(userDto.getCreateTime());
+			Timestamp ts = Timestamp.valueOf(createTime);
+			user.setCreateTime(ts);
 		}
 		
 		return user;
@@ -127,7 +132,7 @@ public class UserConverter {
 		UserDTO userDto = new UserDTO();
 		if (user != null) {
 			userDto.setAddress(user.getAddress());
-			userDto.setCreateTime(user.getCreateTime());
+			userDto.setCreateTime(user.getCreateTime().toLocaleString());
 			userDto.setEmail(user.getEmail());
 			userDto.setGender(user.getGender());
 			userDto.setGrade(user.getGrade());

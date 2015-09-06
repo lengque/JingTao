@@ -9,4 +9,8 @@ public class CommonUtil {
 	
 	//email regx format
 	public static String Email_Format = "^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$";
+	
+	//statusCode 
+	public static String STATU_NORMAL = "0000";
+	public static String STATU_ERROR = "0000";
 }

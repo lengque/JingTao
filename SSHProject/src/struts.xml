@@ -31,8 +31,8 @@
 		<!-- 全局变量 end -->
 	</package>
 	
-	<include file="struts_user.xml"/>
-	<include file="struts_admin.xml"/>
-	<include file="struts_category.xml"/>
-	<include file="struts_order.xml"/>
+	<include file="conf/action/struts_user.xml"/>
+	<include file="conf/action/struts_admin.xml"/>
+	<include file="conf/action/struts_category.xml"/>
+	<include file="conf/action/struts_order.xml"/>
 </struts>

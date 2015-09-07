@@ -1,6 +1,8 @@
 $(function() {
     window.host = "http://localhost:8080";
     window.test = true;
+    window.runInServer = true;
+    var topic = {};
     var debug = true;
 
     ! function(enable) {
@@ -14,6 +16,7 @@ $(function() {
         console.groupCollapsed = function() {};
 
     }(debug);
+    
     var buildParams = function(instance){
         var params = $.param(instance);
         if(params && params.indexOf('=')==0){
@@ -21,6 +24,7 @@ $(function() {
         }
         return params;
     }
+    
     window.nativeRequest = {
         proxy: function(options) {
             $.ajax({
@@ -45,18 +49,21 @@ $(function() {
             });
         },
         proxy2: function(url, method, params) {
+        //proxy : function(datajs, callback, url, method){
             $.ajax({
                 type: method,
                 data: params,
                 url: url,
-                dataType: 'text/html',
+                dataType: 'json',
                 beforeSend: function() {
                     //loading
-                    console.info("proxy2, need handle some info before send request...");
+                    //console.info("proxy2, need handle some info before send request...");
+                    
                 },
                 complete: function(data, status) {
                     try {
-                        return data.responseText;
+                        eval("var responseData="+data.responseText+";");
+						eval(callback+"(responseData)");
                     } catch (err) {
                         alert("Error occurs while parsing respone, please check response data:\n" + err);
                     }
@@ -64,6 +71,14 @@ $(function() {
 
             });
         }
+    }
+    
+    window.hookRequire = function(name,args,callback){
+        if(!$.isArray(args)) return;
+        if(callback && $.isFunction(callback)){
+            topic.callback = callback;
+        }
+        window.nativeRequest[name].apply(this,args);
     }
 
 
@@ -110,7 +125,47 @@ $(function() {
     window.requestUrl = requestUrl;
 });
 
-
+function callBackHandler(name, data){
+    var result = {data:data.data};
+    result.valid = data.data.header.statusCode !="0000"?false:true;
+    messageHandler.apply(this,[name, topic.callback,result]);
+}
+function messageHandler(name,handler,rs){
+    var rsData=rs.data;
+    
+    if(rs.valid){
+		handler.success.apply(this,[rs]);
+		return;
+	}else{
+        var existJqueryUITag = $("script");
+        var isExist = false;
+        for(var i in existJqueryUITag){
+            isExist = $(existJqueryUITag[i]).attr("src").indexOf("jquery-ui")>-1 ? true : false;
+            if(isExist){
+                break;
+            }
+        }
+        if(!isExist){
+            var createScript = document.createElement("script");
+            if(window.runInServer){
+                $(createScript).attr("src", "WebApp/lib/js/jquery-ui.min.js");
+            }else{
+                $(createScript).attr("src", "../../../jquery-ui.min.js");
+            }
+        }
+    }
+	if(handler.error && $.isFunction(handler.error)){
+		if(rsData && rsData.hasOwnProperty('header'))
+		{
+            handler.error.apply(self,[rs]);
+        }
+	}
+    
+    if(rsData && rsData.hasOwnProperty('header') && rsData.header.statusCode == "SYS900"){
+        //dialog show here
+    }
+    
+}
 
 $(function() {
     //base64 encode and decode

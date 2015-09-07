@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import org.apache.catalina.Session;
+//import org.apache.catalina.Session;
 import org.apache.commons.lang.StringUtils;
 
 import Exception.BaseException;

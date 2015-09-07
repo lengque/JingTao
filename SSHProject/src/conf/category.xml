@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categoryInfo>
+    <category categoryParent="0" categoryName="数码家电" categoryId="100"/>
+    <category categoryParent="100" categoryName="手机" categoryId="101"/>
+    <category categoryParent="100" categoryName="笔记本电脑" categoryId="102"/>
+    <category categoryParent="100" categoryName="超级本" categoryId="103"/>
+	<category categoryParent="100" categoryName="台式机" categoryId="104"/>
+	<category categoryParent="100" categoryName="显示器" categoryId="105"/>
+	<category categoryParent="100" categoryName="无线路由器" categoryId="106"/> 
+	<category categoryParent="100" categoryName="上网卡" categoryId="107"/> 
+	<category categoryParent="100" categoryName="游戏卡" categoryId="108"/> 
+	<category categoryParent="100" categoryName="耳机" categoryId="109"/> 
+	<category categoryParent="100" categoryName="MP3" categoryId="110"/> 
+	<category categoryParent="100" categoryName="吹风机" categoryId="111"/> 
+	<category categoryParent="100" categoryName="电风扇" categoryId="112"/> 
+	<category categoryParent="100" categoryName="增湿器" categoryId="113"/>
+	<category categoryParent="0" categoryName="宿舍必备" categoryId="200"/>
+	<category categoryParent="200" categoryName="饮水机" categoryId="201"/>
+    <category categoryParent="200" categoryName="水卡" categoryId="202"/>
+    <category categoryParent="200" categoryName="饭卡" categoryId="203"/>
+	<category categoryParent="200" categoryName="桌子" categoryId="204"/>
+	<category categoryParent="200" categoryName="躺椅" categoryId="205"/>
+	<category categoryParent="200" categoryName="眼罩" categoryId="206"/> 
+	<category categoryParent="200" categoryName="盆子" categoryId="207"/> 
+	<category categoryParent="200" categoryName="洗衣液" categoryId="208"/> 
+	<category categoryParent="200" categoryName="洗衣粉" categoryId="209"/> 
+	<category categoryParent="200" categoryName="肥皂" categoryId="210"/> 
+	<category categoryParent="0" categoryName="学习资料" categoryId="300"/>
+	<category categoryParent="300" categoryName="证件考试书籍" categoryId="301"/>
+    <category categoryParent="300" categoryName="工具书" categoryId="302"/>
+    <category categoryParent="300" categoryName="专业书籍" categoryId="303"/>
+	<category categoryParent="300" categoryName="文具" categoryId="304"/>
+	<category categoryParent="300" categoryName="培训名额转让" categoryId="305"/>
+	<category categoryParent="0" categoryName="爱美乐园" categoryId="400"/>
+	<category categoryParent="400" categoryName="护肤品" categoryId="401"/>
+    <category categoryParent="400" categoryName="头饰" categoryId="402"/>
+    <category categoryParent="400" categoryName="香水" categoryId="403"/>
+	<category categoryParent="400" categoryName="洗发露" categoryId="404"/>
+	<category categoryParent="400" categoryName="花露水" categoryId="405"/>
+	<category categoryParent="0" categoryName="娱乐爱好" categoryId="500"/>
+	<category categoryParent="500" categoryName="滑板鞋" categoryId="501"/>
+    <category categoryParent="500" categoryName="溜冰鞋" categoryId="502"/>
+    <category categoryParent="500" categoryName="跳舞毯" categoryId="503"/>
+	<category categoryParent="0" categoryName="旅行工具" categoryId="600"/>
+	<category categoryParent="600" categoryName="自行车" categoryId="601"/>
+    <category categoryParent="600" categoryName="电动车" categoryId="602"/>
+</categoryInfo>
+
+				

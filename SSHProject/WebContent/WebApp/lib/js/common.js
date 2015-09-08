@@ -1,3 +1,4 @@
+String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)};
 $(function() {
     window.host = "http://localhost:8080";
     window.test = true;
@@ -52,21 +53,22 @@ $(function() {
 
             });
         },
-        proxy2: function(url, method, params) {
+        proxy2: function(parameters, callback, url, method) {
         //proxy : function(datajs, callback, url, method){
             $.ajax({
                 type: method,
                 data: params,
                 url: url,
                 dataType: 'json',
+                data: {"requestJson":parameters},
                 beforeSend: function() {
                     //loading
                     //console.info("proxy2, need handle some info before send request...");
-                    
                 },
                 complete: function(data, status) {
                     try {
                         eval("var responseData="+data.responseText+";");
+                        
 						eval(callback+"(responseData)");
                     } catch (err) {
                         alert("Error occurs while parsing respone, please check response data:\n" + err);
@@ -139,6 +141,21 @@ $(function() {
                 console.log('POST Response: %o', response);
                 success(response);
             });
+        },
+        request : function(options){
+            var url = getURL(window.requestUrl[options.name]);
+            if(window.test){
+                require(["dummy/"+options.name+"_resp"], function(data){
+                    if(options.callback && $.isFunction(options.callback)){
+                        var handler = options.callback.call(this,data);
+                        var result = {data:data};
+                        result.valid = data.header.statusCode !="0000"?false:true;
+                        messageHandler.apply(this,[handler,result]);
+                    }
+                });
+            }else{
+                window.hookRequire("proxy2", [options.datajs, "callBackHandler", url,options.method], options.callback);
+            }
         }
     }
     
@@ -185,35 +202,37 @@ var commonErrorNls = {
     "ORD009": "无权操作该条信息",
     "ORD010": "查找的信息不存在"
 };
-function callBackHandler(name, data){
-    var result = {data:data.data};
-    result.valid = data.data.header.statusCode !="0000"?false:true;
-    messageHandler.apply(this,[name, topic.callback,result]);
+function callBackHandler(data){
+    console.log("callBackHandler("+data+")");
+    var result = {data:data};
+    result.valid = data.header.statusCode !="0000"?false:true;
+    messageHandler.apply(this,[topic.callback,result]);
 }
-function messageHandler(name,handler,rs){
+function messageHandler(handler,rs){
     var rsData=rs.data;
-    
+    var statusCode = rsData["header"]["statusCode"];
     if(rs.valid){
 		handler.success.apply(this,[rs]);
 		return;
-	}else{
-        var existJqueryUITag = $("script");
-        var isExist = false;
-        for(var i in existJqueryUITag){
-            isExist = $(existJqueryUITag[i]).attr("src").indexOf("jquery-ui")>-1 ? true : false;
-            if(isExist){
-                break;
-            }
-        }
-        if(!isExist){
-            var createScript = document.createElement("script");
-            if(window.runInServer){
-                $(createScript).attr("src", "WebApp/lib/js/jquery-ui.min.js");
-            }else{
-                $(createScript).attr("src", "../../../jquery-ui.min.js");
-            }
+	}
+    /*
+    var existJqueryUITag = $("script");
+    var isExist = false;
+    for(var i in existJqueryUITag){
+        isExist = $(existJqueryUITag[i]).attr("src").indexOf("jquery-ui")>-1 ? true : false;
+        if(isExist){
+            break;
         }
     }
+    if(!isExist){
+        var createScript = document.createElement("script");
+        if(window.runInServer){
+            $(createScript).attr("src", "WebApp/lib/js/jquery-ui.min.js");
+        }else{
+            $(createScript).attr("src", "../../../jquery-ui.min.js");
+        }
+    }
+    */
 	if(handler.error && $.isFunction(handler.error)){
 		if(rsData && rsData.hasOwnProperty('header'))
 		{
@@ -221,10 +240,16 @@ function messageHandler(name,handler,rs){
         }
 	}
     
-    if(rsData && rsData.hasOwnProperty('header') && rsData.header.statusCode == "SYS900"){
+    //filter common error
+    if(rsData && rsData.hasOwnProperty('header')){// && statusCode != "SYS900"
         //dialog show here
+        var _msg = commonErrorNls[statusCode];
+        if (_msg!="") {
+            bootbox.alert(_msg);
+        }else{
+            bootbox.alert("未知的错误，请联系管理员！");
+        }
     }
-    
 }
 
 function handleResError(response){
@@ -250,6 +275,18 @@ function handleResError(response){
 		}
 		return false;
 	}
+}
+
+function getURL(link){
+    var url = link;
+    if(!!!url){
+        console.log("getURL is empty...");
+        return;
+    }
+    if(!url.startsWith("http") && !url.startsWith("https")){
+        url = window.host + link;
+    }
+    return url;    
 }
 
 $(function() {

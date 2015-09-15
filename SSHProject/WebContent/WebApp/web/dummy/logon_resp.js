@@ -1,6 +1,6 @@
 define({
 	"header": {
-		"statusCode": "SYS900"
+		"statusCode": "USER001"
 	},
 	"body": [{
 		"UserDTO": {

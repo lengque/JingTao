@@ -1,10 +1,13 @@
 String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)};
 $(function() {
     window.host = "http://localhost:8080";
-    window.test = true;
+    window.test = true; //false as running in server
     window.runInServer = true;
     var requestUrl = {
-        "logon": "/SSHProject/login.action"
+        "logon": "/SSHProject/login.action",
+        "register": "/SSHProject/register.action",
+        "addAdmin": "/SSHProject/user/addNewUser.action"
+        
     }
     window.requestUrl = requestUrl;
     var topic = {};
@@ -57,7 +60,6 @@ $(function() {
         //proxy : function(datajs, callback, url, method){
             $.ajax({
                 type: method,
-                data: params,
                 url: url,
                 dataType: 'json',
                 data: {"requestJson":parameters},
@@ -145,12 +147,15 @@ $(function() {
         request : function(options){
             var url = getURL(window.requestUrl[options.name]);
             if(window.test){
-                require(["dummy/"+options.name+"_resp"], function(data){
+                require(["../dummy/"+options.name+"_resp"], function(data){
                     if(options.callback && $.isFunction(options.callback)){
-                        var handler = options.callback.call(this,data);
-                        var result = {data:data};
-                        result.valid = data.header.statusCode !="0000"?false:true;
-                        messageHandler.apply(this,[handler,result]);
+                        checkResponseData.apply(this, [data, function(rs){
+                            var handler = options.callback.call(this,rs.data);
+                            var result = {data:rs.data};
+                            result.valid = rs.data.header.statusCode !="0000"?false:true;
+                            messageHandler.apply(this,[handler,result]);
+                        }]);
+                        
                     }
                 });
             }else{
@@ -170,7 +175,11 @@ $(function() {
 
 var commonErrorNls = {
     "SYS900": "系统错误",
-
+    "jsonErr": "数据格式不正确",
+    "jsonErrAnalyse": "数据解析出错",
+    "headerErr": "返回头信息不存在",
+    "statusCodeErr": "状态码不存在",
+    
     "USER001": "用户未登录",
     "USER002": "用户名不能为空",
     "USER003": "用户名不要超过16位",
@@ -202,6 +211,49 @@ var commonErrorNls = {
     "ORD009": "无权操作该条信息",
     "ORD010": "查找的信息不存在"
 };
+
+function checkResponseData(data, rs){
+    var fianlData = {data : data};
+    var errorCode = null;
+    if(!data){
+        errorCode = "jsonErr";
+        var _msg = commonErrorNls[errorCode];
+        if (_msg!="") {
+            bootbox.alert(_msg);
+            return;
+        }
+    }
+    
+    if(typeof data === "string"){
+		try{
+			data = $.parseJSON(data);
+            fianlData.data = data;
+        }catch(err){
+            errorCode = "jsonErrAnalyse";
+            var _msg = commonErrorNls[errorCode];
+            if (_msg!="") {
+                bootbox.alert(_msg);
+                return;
+            }
+        }
+    }
+    
+    if(typeof fianlData.data === "object"){
+		if(!fianlData.data.hasOwnProperty('header')){
+			errorCode = 'headerErr';
+		}else if(!fianlData.data.header.hasOwnProperty('statusCode')){
+			errorCode = 'statusCodeErr';
+		}
+        if(errorCode != null){
+            var _msg = commonErrorNls[errorCode];
+            if (_msg!="") {
+                bootbox.alert(_msg);
+                return;
+            }
+        }
+    }
+    rs(fianlData);
+}
 function callBackHandler(data){
     console.log("callBackHandler("+data+")");
     var result = {data:data};

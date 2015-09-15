@@ -192,19 +192,19 @@ dd .title{margin-left: 12px;}
 
 
 /*tip*/
-.tip{width:485px; height:260px; position:absolute;top:10%; left:30%;background:#fcfdfd;box-shadow:1px 8px 10px 1px #9b9b9b;border-radius:1px;behavior:url(js/pie.htc); display:none; z-index:111111;}
-.tiptop{height:40px; line-height:40px; background:url(../../lib/images/tcbg.gif)  repeat-x; cursor:pointer;}
-.tiptop span{font-size:14px; font-weight:bold; color:#fff;float:left; text-indent:20px;}
-.tiptop a{display:block; background:url(../../lib/images/close.png) no-repeat; width:22px; height:22px;float:right;margin-right:7px; margin-top:10px; cursor:pointer;}
-.tiptop a:hover{background:url(../../lib/images/close1.png) no-repeat;}
+.tip, .tip2{width:485px; height:260px; position:absolute;top:10%; left:30%;background:#fcfdfd;box-shadow:1px 8px 10px 1px #9b9b9b;border-radius:1px;behavior:url(js/pie.htc); display:none; z-index:111111;}
+.tiptop, .tiptop2{height:40px; line-height:40px; background:url(../../lib/images/tcbg.gif)  repeat-x; cursor:pointer;}
+.tiptop span, .tiptop2 span{font-size:14px; font-weight:bold; color:#fff;float:left; text-indent:20px;}
+.tiptop a, .tiptop2 a{display:block; background:url(../../lib/images/close.png) no-repeat; width:22px; height:22px;float:right;margin-right:7px; margin-top:10px; cursor:pointer;}
+.tiptop a:hover, .tiptop2 a:hover{background:url(../../lib/images/close1.png) no-repeat;}
 .tipinfo{padding-top:30px;margin-left:65px; height:95px;}
 .tipinfo span{width:95px; height:95px;float:left;}
 .tipright{float:left;padding-top:15px; padding-left:10px;}
 .tipright p{font-size:14px; font-weight:bold; line-height:35px;}
 .tipright cite{color:#858686;}
 .tipbtn{margin-top:25px; margin-left:125px;}
-.sure ,.cancel{width:96px; height:35px; line-height:35px; color:#fff; background:url(../../lib/images/btnbg1.png) repeat-x; font-size:14px; font-weight:bold;border-radius: 3px; cursor:pointer;}
-.cancel{background:url(../../lib/images/btnbg2.png) repeat-x;color:#000;font-weight:normal;}
+.sure ,.cancel, .sure2 , .cancel2{width:96px; height:35px; line-height:35px; color:#fff; background:url(../../lib/images/btnbg1.png) repeat-x; font-size:14px; font-weight:bold;border-radius: 3px; cursor:pointer;}
+.cancel, .cancel2{background:url(../../lib/images/btnbg2.png) repeat-x;color:#000;font-weight:normal;}
 
 /*tools*/
 .toolsli{clear:both; overflow:hidden; margin-bottom:20px;}

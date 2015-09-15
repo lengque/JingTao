@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width">
     <title>欢迎登录后台管理系统</title>
     <link href="../../lib/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../../lib/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
         span.warn{
             color:red;
@@ -15,8 +16,12 @@
         }
     </style>
     <script language="JavaScript" src="../../lib/js/jquery.js"></script>
+    <script src="../../lib/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../lib/js/bootbox.min.js" type="text/javascript"></script>
+    <script src="../../lib/js/require.js" type="text/javascript"></script>
     <script src="../../lib/js/common.js" type="text/javascript"></script>
-    <!--<script src="../../lib/js/cloud.js" type="text/javascript"></script>-->
+    <script src="../../lib/js/cookie.js" type="text/javascript"></script>
+    
     <script language="javascript">
     $(function() {
         $('.loginbox').css({
@@ -30,21 +35,44 @@
             });
         })
         var username = $("#username"), pwd = $("#password");
-        $("#login").click(function(){
-            var usr = $("#username"), pwd = $("#password"), rmb = $("#rmb");
-            if(usr.val()!=="" && pwd.val()!==""){
-                if(rmb.is(":checked")){
-                    localStorage.setItem("logonName", usr);
-                }
-                if(window.test){
-                    location.href = "../home/index.html";
-                }else{
-                    $("#logonForm").submit();
-                }
-            }else{
-                return;
-            }
+       
+        $("#login").click(
+        	function(){
+	            var userName = $("#username"), pwd = $("#password"), rmb = $("#rmb");
+	            if(userName.val()!=="" && pwd.val()!==""){
+	                if(rmb.is(":checked")){
+	                    localStorage.setItem("logonName", userName);
+	                }
+                    var userInfo = {"UserDTO":{
+                                        "userName": userName,
+                                        "password": pwd,
+                                   }};
+                    function datajs(){
+                        return userInfo;
+                    }
+                    function callback(data){
+                        return {
+                            "success": function(data){
+                                //setCookie
+                                window.location.href = "../home/main.html";
+                            },
+                            "error": function(data){
+                            
+                            }
+                        }
+                    }
+                    var options = {
+                        "name": "logon",
+                        "method": "post",
+                        "datajs": datajs,
+                        "callback": callback
+                    }
+                    window.nativeRequest.request(options);
+	            }else{
+	                return;
+	            }
         });
+        
         username.bind("blur", function(){
             if(username.val().trim() === ""){
                 $("#username").next().show();
@@ -59,7 +87,6 @@
                 $("#password").next().hide();
             }
         });
-
     });
     </script>
 </head>
@@ -72,6 +99,7 @@
     <div class="logintop">
         <span>欢迎登录后台管理界面平台</span>
         <ul>
+            <li><a href="register.html">新用户注册</a></li>
             <li><a href="#">帮助</a></li>
             <li><a href="#">关于</a></li>
         </ul>
@@ -79,7 +107,7 @@
     <div class="loginbody">
         <span class="systemlogo"></span>
         <div class="loginbox">
-            <form action="" method="post" id="logonForm">
+            <form method="post" id="logonForm">
                 <ul>
                     <li>
                         <input name="username" id="username" type="text" class="loginuser" value="" placeholder="请输入用户名"/>
@@ -99,7 +127,7 @@
             </form>
         </div>
     </div>
-    <div class="loginbm">版权所有 2015 <a href="../home/index.html">鲸淘网</a> </div>
+    <div class="loginbm">版权所有 2015 <a href="index.html">鲸淘网</a> </div>
 </body>
 
 </html>

@@ -61,11 +61,16 @@
                             }
                         }
                     }
+                    function afterCallback(){
+                        console.log("=====will execute after click ok button in dialog===========");
+                        pwd.val("");
+                    }
                     var options = {
                         "name": "logon",
                         "method": "post",
                         "datajs": datajs,
-                        "callback": callback
+                        "callback": callback,
+                        "afterCallback": afterCallback
                     }
                     window.nativeRequest.request(options);
 	            }else{

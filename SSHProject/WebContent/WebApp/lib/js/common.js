@@ -149,11 +149,11 @@ $(function() {
             if(window.test){
                 require(["../dummy/"+options.name+"_resp"], function(data){
                     if(options.callback && $.isFunction(options.callback)){
-                        checkResponseData.apply(this, [data, function(rs){
+                        checkResponseData.apply(this, [data, options.afterCallback, function(rs){
                             var handler = options.callback.call(this,rs.data);
                             var result = {data:rs.data};
                             result.valid = rs.data.header.statusCode !="0000"?false:true;
-                            messageHandler.apply(this,[handler,result]);
+                            messageHandler.apply(this,[handler,options.afterCallback, result]);
                         }]);
                         
                     }
@@ -212,14 +212,14 @@ var commonErrorNls = {
     "ORD010": "查找的信息不存在"
 };
 
-function checkResponseData(data, rs){
+function checkResponseData(data, afterCallback, rs){
     var fianlData = {data : data};
     var errorCode = null;
     if(!data){
         errorCode = "jsonErr";
         var _msg = commonErrorNls[errorCode];
         if (_msg!="") {
-            bootbox.alert(_msg);
+            bootbox.alert(_msg, afterCallback);
             return;
         }
     }
@@ -232,7 +232,7 @@ function checkResponseData(data, rs){
             errorCode = "jsonErrAnalyse";
             var _msg = commonErrorNls[errorCode];
             if (_msg!="") {
-                bootbox.alert(_msg);
+                bootbox.alert(_msg, afterCallback);
                 return;
             }
         }
@@ -247,7 +247,7 @@ function checkResponseData(data, rs){
         if(errorCode != null){
             var _msg = commonErrorNls[errorCode];
             if (_msg!="") {
-                bootbox.alert(_msg);
+                bootbox.alert(_msg, afterCallback);
                 return;
             }
         }
@@ -260,7 +260,7 @@ function callBackHandler(data){
     result.valid = data.header.statusCode !="0000"?false:true;
     messageHandler.apply(this,[topic.callback,result]);
 }
-function messageHandler(handler,rs){
+function messageHandler(handler, afterCallback, rs){
     var rsData=rs.data;
     var statusCode = rsData["header"]["statusCode"];
     if(rs.valid){
@@ -297,9 +297,15 @@ function messageHandler(handler,rs){
         //dialog show here
         var _msg = commonErrorNls[statusCode];
         if (_msg!="") {
-            bootbox.alert(_msg);
+            bootbox.alert(_msg, afterCallback);
         }else{
-            bootbox.alert("未知的错误，请联系管理员！");
+            bootbox.alert("未知的错误，请联系管理员！", function(){
+                if(window.test){
+                    location.href = "../userManage/login.html";
+                }else{
+                    location.href = window.host + "/SSHProject/WebApp/web/userManage/login.html";
+                }
+            });
         }
     }
 }

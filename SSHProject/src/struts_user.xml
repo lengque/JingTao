@@ -35,7 +35,7 @@
 			<result name="success">/success.jsp</result>
 		</action>
 		
-		<!-- 退出登陆 -->
+		<!-- 用户列表 -->
 		<action name="userList" class="userController" method="userList">
 			<result name="success">/Resources/pages/right.jsp</result>
 		</action>

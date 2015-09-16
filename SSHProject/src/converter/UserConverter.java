@@ -62,7 +62,7 @@ public class UserConverter {
 			user.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 			// 设置用户状态为活跃状态
-			user.setState(UserUtil.effective);
+			user.setStatus(UserUtil.effective);
 		} else {
 			// throw exception
 			throw new BaseException(ErrorList.UserName_Is_Blank);
@@ -114,7 +114,7 @@ public class UserConverter {
 			user.setAddress(userDto.getAddress());
 			user.setIdCardNo(userDto.getIdCardNo());
 			user.setGrade(userDto.getGrade());
-			user.setState(userDto.getState());
+			user.setStatus(userDto.getStatus());
 			//set create time
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String createTime = df.format(userDto.getCreateTime());
@@ -138,7 +138,7 @@ public class UserConverter {
 			userDto.setGrade(user.getGrade());
 			userDto.setIdCardNo(user.getIdCardNo());
 			userDto.setRealName(user.getRealName());
-			userDto.setState(user.getState());
+			userDto.setStatus(user.getStatus());
 			userDto.setTelphone(user.getTelphone());
 			userDto.setUserId(user.getUserId());
 			userDto.setUserName(user.getUserName());

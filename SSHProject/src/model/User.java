@@ -16,7 +16,7 @@ public class User {
     //后台维护信息
     private Integer role;
     private Integer grade;
-    private Integer state;
+    private Integer status;
     private Timestamp createTime;
     private Timestamp updateTime;
   
@@ -92,12 +92,12 @@ public class User {
 		this.grade = grade;
 	}
 
-	public Integer getState() {
-		return state;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setState(Integer state) {
-		this.state = state;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Timestamp getCreateTime() {

@@ -15,7 +15,7 @@ public class UserExistValidator implements BaseValidator<User>{
 	@Override
 	public void validate(User user,User dbUser) {
 		// if not found the u will be null
-		if(null == dbUser || dbUser.getState()== UserUtil.disable){
+		if(null == dbUser || dbUser.getStatus()== UserUtil.disable){
 			throw new BaseException(ErrorList.User_Not_Exist);
 		}
 	}

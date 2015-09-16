@@ -29,7 +29,6 @@ public class UserController extends ActionSupport implements SessionAware {
 	private Log logger = LogFactory.getLog(this.getClass().getName());
 	
 	
-	//最终留下 start
 	private UserService userService;
 	private UserConverter userConverter;
 	private JsonAdaptor adptor;
@@ -37,10 +36,11 @@ public class UserController extends ActionSupport implements SessionAware {
 	private String requestJson;
 	private String responseJson;
 	private List<Object> dtoList;
-	//最终留下 end
+	
+	protected Map<String, Object> session;
 	
 	private Response result;
-	protected Map<String, Object> session;
+	
 	
 	/**
 	 * <p>查询分页数据</p>

@@ -8,7 +8,15 @@ public class UserDTO {
 	private String primitivePsw;
 	private String password;
 	private String confirmPsw;
-	//基本信息
+	//学校信息
+	private String schoolName;
+	private String schoolCode;
+	private String academyName;
+	private String academyCode;
+	private String major;
+	private String majorCode;
+	private String stuNum;
+	//个人基本信息
 	private String IdCardNo;
 	private String realName;
 	private Integer gender;
@@ -18,7 +26,7 @@ public class UserDTO {
     //后台维护信息
     private Integer role;
     private Integer grade;
-    private Integer state;
+    private Integer status;
     private String createTime;
     private String updateTime;
 	
@@ -94,11 +102,11 @@ public class UserDTO {
 	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
-	public Integer getState() {
-		return state;
+	public Integer getStatus() {
+		return status;
 	}
-	public void setState(Integer state) {
-		this.state = state;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public String getCreateTime() {
 		return createTime;

@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//change the user state
-		user.setState(UserUtil.disable);
+		user.setStatus(UserUtil.disable);
 		
 		//save the state
 		userDao.updateUser(user);
@@ -133,11 +133,11 @@ public class UserServiceImpl implements UserService {
 		//check the user from DB
 		User user = userDao.checkUser(u);
 		
-		if(null == user || user.getState()==UserUtil.disable){
+		if(null == user || user.getStatus()==UserUtil.disable){
 			//user not exist
 			throw new BaseException(ErrorList.User_Not_Exist);
 		}
-		if(user.getState()==UserUtil.pause){
+		if(user.getStatus()==UserUtil.pause){
 			//user temporaily close
 			throw new BaseException(ErrorList.Temporarily_Closed);
 		}

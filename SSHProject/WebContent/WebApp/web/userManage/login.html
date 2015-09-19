@@ -44,8 +44,8 @@
 	                    localStorage.setItem("logonName", userName);
 	                }
                     var userInfo = {"UserDTO":{
-                                        "userName": userName,
-                                        "password": pwd,
+                                        "userName": userName.val(),
+                                        "password": pwd.val(),
                                    }};
                     function datajs(){
                         return userInfo;

@@ -1,12 +1,12 @@
 String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)};
 $(function() {
-    window.host = "http://localhost:8080";
-    window.test = true; //false as running in server
+    window.host = "http://localhost:8080/SSHProject";
+    window.test = false; //false as running in server
     window.runInServer = true;
     var requestUrl = {
-        "logon": "/SSHProject/login.action",
-        "register": "/SSHProject/register.action",
-        "addAdmin": "/SSHProject/user/addNewUser.action"
+        "logon": "/login.action",
+        "register": "/register.action",
+        "addAdmin": "/user/addNewUser.action"
         
     }
     window.requestUrl = requestUrl;
@@ -50,6 +50,13 @@ $(function() {
                         eval("var respData=" + data + ";");
                         eval(options.callback + "(respData)");
                     } catch (err) {
+                        if(data.responseText == "null"){
+                            var _msg = commonErrorNls["null"];
+                            if (_msg!="") {
+                                bootbox.alert(_msg);
+                                return;
+                            }
+                       }else
                         alert("Error occurs while parsing respone, please check response data:\n" + err);
                     }
                 }
@@ -62,7 +69,7 @@ $(function() {
                 type: method,
                 url: url,
                 dataType: 'json',
-                data: {"requestJson":parameters},
+                data: {"requestJson":$.isFunction(parameters)?eval(parameters()):parameters},
                 beforeSend: function() {
                     //loading
                     //console.info("proxy2, need handle some info before send request...");
@@ -73,6 +80,13 @@ $(function() {
                         
 						eval(callback+"(responseData)");
                     } catch (err) {
+                        if(data.responseText == "null"){
+                            var _msg = commonErrorNls["null"];
+                            if (_msg!="") {
+                                bootbox.alert(_msg);
+                                return;
+                            }
+                        }else
                         alert("Error occurs while parsing respone, please check response data:\n" + err);
                     }
                 }
@@ -175,6 +189,7 @@ $(function() {
 
 var commonErrorNls = {
     "SYS900": "系统错误",
+    "null": "数据不存在",
     "jsonErr": "数据格式不正确",
     "jsonErrAnalyse": "数据解析出错",
     "headerErr": "返回头信息不存在",

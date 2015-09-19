@@ -25,7 +25,7 @@
 	</filter>
   
     <welcome-file-list>  
-        <welcome-file>WebApp/web/index.html</welcome-file>  
+        <welcome-file>default.html</welcome-file>  
     </welcome-file-list>  
   
 </web-app> 

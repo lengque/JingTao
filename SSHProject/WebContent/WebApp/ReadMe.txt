@@ -4,7 +4,7 @@
 1, \SSHProject\WebContent\WebApp\lib\js\common.js
     window.test = true; //false as running in server
 2, 对应的html，要改成绝对路径
-3, html入口路径是: \SSHProject\WebContent\WebApp\web\default.html
+3, html入口路径是: \SSHProject\default.html
 
 写client side的同事请注意,
 

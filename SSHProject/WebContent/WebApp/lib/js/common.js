@@ -69,7 +69,7 @@ $(function() {
                 type: method,
                 url: url,
                 dataType: 'json',
-                data: {"requestJson":$.isFunction(parameters)?eval(parameters()):parameters},
+                data : {"requestJson":toJson(eval("parameters()"))},
                 beforeSend: function() {
                     //loading
                     //console.info("proxy2, need handle some info before send request...");
@@ -226,6 +226,13 @@ var commonErrorNls = {
     "ORD009": "无权操作该条信息",
     "ORD010": "查找的信息不存在"
 };
+
+function toJson(obj){
+    if(typeof obj == "object"){
+     return JSON.stringify(obj);
+    }
+    return obj;
+}
 
 function checkResponseData(data, afterCallback, rs){
     var fianlData = {data : data};
